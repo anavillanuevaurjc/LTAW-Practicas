@@ -9,3 +9,6 @@ Un segundo commit
 ## Probado
 Un tercer commit 
 
+![](Ejercicio2-img1.gif)
+
+
