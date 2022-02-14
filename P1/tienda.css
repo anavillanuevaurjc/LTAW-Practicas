@@ -1,0 +1,25 @@
+body{
+   
+    background-color: white;
+    font-family: fantasy;
+    font-style: italic;
+    text-align:center;
+    border-width: 3px;
+    border-radius: 60px;  
+}
+
+h1{
+    background-color:bisque;
+    font-family: fantasy;
+}
+
+
+.queso{
+    border: solid;
+    border-width: 30px;
+    
+}
+
+#principal{
+    text-align: center;
+}
