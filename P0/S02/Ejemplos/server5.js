@@ -1,7 +1,7 @@
 const http = require('http');
 
 //-- Definir el puerto a utilizar
-const PUERTO = 8080;
+const PUERTO = 8080; //Por defecto
 
 //-- Crear el servidor
 const server = http.createServer((req, res) => {
