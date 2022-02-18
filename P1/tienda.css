@@ -1,4 +1,5 @@
 body{
+    color:azure;
     background-image: url(fondo.jpg);
 }
 #portada {
@@ -8,4 +9,8 @@ body{
     font-family: fantasy;
     color:azure;
     float: right;
+}
+#tabla{
+    font-family: fantasy;
+    color:azure;
 }
