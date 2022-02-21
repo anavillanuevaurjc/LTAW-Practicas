@@ -14,10 +14,21 @@ const server = http.createServer((req, res) => {
   const myURL = new URL(req.url, 'http://' + req.headers['host']);
   console.log("URL solicitada: " + myURL.pathname);
   content = (myURL.pathname).split(["."])[1]
+  content_type = "text/" + content;
   filename = "." + myURL.pathname;
   console.log("URL busqueda correcta" + filename);
   console.log("Tipo de contenido " + content);
 
+  fs.readFile(filename, (err, data) => {
+    if (err) {
+        console.log('Error')
+        return res.end();
+    }
+
+    console.log(content_type)
+    res.write(data); //Su ausencia da lugar a un error 
+    res.end();
+  });  
 });
 
 server.listen(PUERTO);
