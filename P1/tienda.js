@@ -6,6 +6,22 @@ const url = require('url');
 //-- Puerto -->
 const PUERTO = 9090;
 
+//-- Texto HTML de la página de error -->
+const pagina_error = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi tienda</title>
+</head>
+<body style="background-color: red">
+    <h1 style="color: white">ERROR!!!!</h1>
+</body>
+</html>
+`
+
 //-- Servidor -->
 console.log("Escuchando...");
 
@@ -23,6 +39,11 @@ const server = http.createServer((req, res) => {
   fs.readFile(filename, (err, data) => {
     if (err) {
         console.log('Error')
+        const data = fs.readFileSync('error.html','utf8');
+        //res.statusCode = 404;
+        //res.statusMessage = "Ha habido un error";
+        //res.setHeader('Content-Type', "text/html");
+        res.write(data);
         return res.end();
     }
 
