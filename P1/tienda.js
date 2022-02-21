@@ -13,6 +13,9 @@ const server = http.createServer((req, res) => {
   console.log("Petición recibida!");
   const myURL = new URL(req.url, 'http://' + req.headers['host']);
   console.log("URL solicitada: " + myURL.pathname);
+  filename = "." + myURL.pathname;
+  console.log("URL busqueda correcta" + filename);
+
 });
 
 server.listen(PUERTO);
