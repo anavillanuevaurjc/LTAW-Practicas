@@ -19,6 +19,7 @@ const server = http.createServer((req, res) => {
   console.log("URL busqueda correcta" + filename);
   console.log("Tipo de contenido " + content);
 
+  //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
     if (err) {
         console.log('Error')
@@ -26,8 +27,8 @@ const server = http.createServer((req, res) => {
     }
 
     console.log(content_type)
-    res.write(data); //Su ausencia da lugar a un error 
-    res.end();
+    res.write(data);  //Su ausencia da lugar a error 
+    res.end();      //Su ausencia da lugar a error 
   });  
 });
 
