@@ -24,9 +24,11 @@ const server = http.createServer((req, res) => {
     if (err) {
         console.log('Error')
         data = fs.readFileSync('error.html','utf8');
+        content = (myURL.pathname).split(["."])[1]
+        content_type = "text/" + content;
         res.statusCode = 404;
         res.statusMessage = "Not Found";
-        res.setHeader('Content-Type', "text/html");
+        res.setHeader('Content-Type', content_type);
         res.write(data);
         return res.end();
     }
