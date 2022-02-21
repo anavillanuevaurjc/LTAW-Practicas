@@ -13,8 +13,10 @@ const server = http.createServer((req, res) => {
   console.log("Petición recibida!");
   const myURL = new URL(req.url, 'http://' + req.headers['host']);
   console.log("URL solicitada: " + myURL.pathname);
+  content = (myURL.pathname).split(["."])[1]
   filename = "." + myURL.pathname;
   console.log("URL busqueda correcta" + filename);
+  console.log("Tipo de contenido " + content);
 
 });
 
