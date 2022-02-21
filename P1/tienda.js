@@ -1,46 +1,55 @@
-//-- Importar los modulos http, fs (obligatorios) y url (opcional)
+//-- Modulos -->
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
 
-//-- Definir el puerto a utilizar
-const PUERTO = 9000;
+//-- Puerto -->
+const PUERTO = 9090;
 
-//-- Crear el sevidor
-const server = http.createServer((req, res)=>{
+//-- Servidor -->
+console.log("Escuchando...");
 
-  console.log("Peticion Recibida");
-
-  //Valores de respuesta por defecto
-  let code = 200;
-  let code_msg = "OK";
-
-  //-- Analizar el recurso
-  //-- Construir el objeto url con la url de la solicitud
-  const url = new URL(req.url, 'http://' + req.headers['host']);
-  console.log(url.pathname);
-
-   //-- Cualquier recurso que no sea la página principal
-  //-- genera un error
-  if (url.pathname != '/') {
-      code = 404;
-      code_msg = "Not Found";
-      page = pagina_error;
-  }
-
-    //-- Generar la respusta en función de las variables
-    //-- code, code_msg y page
-    res.statusCode = code;
-    res.statusMessage = code_msg;
-    res.setHeader('Content-Type','text/html');
-    res.write(page);
-    res.end();
-
-
+const server = http.createServer((req, res) => {
+  console.log("Petición recibida!");
+  const myURL = new URL(req.url, 'http://' + req.headers['host']);
+  console.log("URL solicitada: " + myURL.pathname);
 });
 
-//-- Activar el servidor
 server.listen(PUERTO);
 
-//-- Mensaje de inicio
-console.log("Escuchando en el puerto" + PUERTO);
+//Fichero html      -> .html
+//Fichero imagen    -> .jpg .png
+//Fichero css       -> .css
+//Devolver el fichero pedido, si no se localiza -> pagina de error
+
+//Crear servidor 
+//Llamar a funcion retrollamada en cada peticion 
+
+  //Cuando llegue peticion se ha de localizar el recurso pedido 
+  //(sacarlo por la consola)
+  //Obtener el nombre del fichero --> /index.html --> index.html (valido) -> BUSCAR
+
+  //Lectura asincrona del fichero 
+    //Funcion de retrollamada cuando fin de lectura o error 
+
+    //Comprobacion de lectura correcta -> Imprimir en consola nombre fichero leido
+
+    //En caso de error generar página HTML de error -> generada en constante
+    //Si no hay error 
+      //Devolver contenido del fichero como respuesta 
+      //La respuesta depende del tipo de fichero 
+        //HTML: en la cabecera 'Content-Type' -> 'text/html'
+        //Imagen: en la cabecera 'Content-Type' -> 'image/jpg' 'image/png'
+        //CSS: 'text/css'
+
+        //¿? Determinar que tipo de fichero 
+        //Por la extension del fichero: -> Nombre.html -> fichero HTML
+        //A partir del nombre del fichero obtener su extension -> BUSCAR
+
+
+
+
+
+
+
+
