@@ -1,16 +1,15 @@
 body{
-    color:azure;
+    color:white;
     background-image: url(fondo.jpg);
+    
 }
 #portada {
     margin-top: 3%;
 }
 .disco{
-    font-family: fantasy;
-    color:azure;
     float: right;
 }
-#tabla{
-    font-family: fantasy;
-    color:azure;
+
+h2{
+    background-color: white;
 }
