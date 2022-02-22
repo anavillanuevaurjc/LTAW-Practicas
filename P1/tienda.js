@@ -16,6 +16,7 @@ const server = http.createServer((req, res) => {
   if (myURL.pathname == "/"){
     filename = "index.html"
     content = (myURL.pathname).split(["."])[1]
+    
     content_type = "text/" + content;
   }else{
     content = (myURL.pathname).split(["."])[1]
@@ -34,7 +35,15 @@ const server = http.createServer((req, res) => {
         let code_msg = "Not Found";
         data = fs.readFileSync('error.html','utf8');
         content = (myURL.pathname).split(["."])[1]
-        content_type = "text/" + content;
+        if (content == "jpg" || content == "JPG") {
+          content_type = "image/" + "jpeg";
+        }else if (content == "png" || content == "PNG") {
+          content_type = "image/" + "png";
+        }else if (content == "gif"){
+          content_type = "image/" + "gif";
+        }else{
+          content_type = "text/" + content;
+        }
         res.statusCode = code;
         res.statusMessage = code_msg;
         //res.statusCode = 404;
