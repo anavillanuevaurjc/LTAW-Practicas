@@ -1,0 +1,15 @@
+body{
+    color:white;
+    background-image: url(fondo.jpg);
+    
+}
+#portada {
+    margin-top: 3%;
+}
+.disco{
+    float: right;
+}
+
+h2{
+    background-color: white;
+}
