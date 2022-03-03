@@ -13,3 +13,13 @@ body{
 h2{
     background-color: white;
 }
+
+#registro{
+    text-align: center;
+    background-color: rgba(209, 209, 228, 0.699);
+    margin-left: 50px ;
+    margin-right: 50px ;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 25px;
+}
