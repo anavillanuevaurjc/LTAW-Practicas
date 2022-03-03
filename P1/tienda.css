@@ -1,15 +1,49 @@
 body{
-    color:white;
     background-image: url(fondo.jpg);
-    
+    color: black;
 }
 #portada {
-    margin-top: 3%;
+    text-align: center;
+    background-color: rgba(209, 209, 228, 0.699);
+    margin-left: 150px ;
+    margin-right: 150px ;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 .disco{
-    float: right;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.699);
 }
 
-h2{
-    background-color: white;
+#formulario{
+    text-align: center;
+    background-color: rgba(209, 209, 228, 0.699);
+    margin-left: 50px ;
+    margin-right: 50px ;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 25px;
+}
+
+#tablaProducto{
+    text-align: center;
+    background-color: rgba(209, 209, 228, 0.699);
+    margin-left: 200px ;
+    margin-right: 150px ;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 30px;
+}
+
+#texto{
+    background-color: rgba(228, 209, 219, 0.699);
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 25px;
 }
