@@ -1,7 +1,6 @@
 body{
-    color:white;
     background-image: url(fondo.jpg);
-    
+    color: black;
 }
 #portada {
     text-align: center;
@@ -20,11 +19,31 @@ body{
 
 #formulario{
     text-align: center;
-    color: black;
     background-color: rgba(209, 209, 228, 0.699);
     margin-left: 50px ;
     margin-right: 50px ;
     padding-top: 15px;
     padding-bottom: 15px;
+    font-size: 25px;
+}
+
+#tablaProducto{
+    text-align: center;
+    background-color: rgba(209, 209, 228, 0.699);
+    margin-left: 200px ;
+    margin-right: 150px ;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 30px;
+}
+
+#texto{
+    background-color: rgba(228, 209, 219, 0.699);
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
     font-size: 25px;
 }
