@@ -1,33 +1,36 @@
 [
-    [
-        {
-            "U-nick": "Administrador",
-            "U-nombre": "Ana",
-            "U-correo": "admT@gmail.com"
-        }
-    ],
+    {"productos":[
+      {
+        "nombre":"Amaia",
+        "descripcion":"Disco indie",
+        "precio":"20 euros",
+        "stock": "10"
+      },
+      {
+        "nombre":"Foster the people",
+        "descripcion":"Disco indie",
+        "precio":"30 euros",
+        "stock": "12"
+      },
+      {
+        "nombre":"Supersubmarina",
+        "descripcion":"Disco indie",
+        "precio":"10 euros",
+        "stock": "2"
+      }
+    ]},
 
-    [
-        {
-            "P-nombre": "Supersubmarina",
-            "P-Descripcion": "Disco",
-            "P-Precio": 23,
-            "P-Stock": 10
-        }
-    ],
-
-    [
-
-        {
-            "U-nombre": "Ana",
-            "D-envío": "C/Piruleta 8",
-            "N-tarjeta": "232313974132",
-            "P-nombre": "Supersubmarina"
-
-        }
-    ]
-
-
-
+    { "usuarios":[
+      {
+        "nickname":"Ana_Banana",
+        "tipo":"root",
+        "nombre":"Ana Villanueva",
+        "password": "1234",
+        "email": "Ana_Banana@gmail.com"
+    }
+    ]},
+    
+   { "pedidos":[
+    
+    ]}
 ]
-
