@@ -1,0 +1,33 @@
+[
+    [
+        {
+            "U-nick": "Administrador",
+            "U-nombre": "Ana",
+            "U-correo": "admT@gmail.com"
+        }
+    ],
+
+    [
+        {
+            "P-nombre": "Supersubmarina",
+            "P-Descripcion": "Disco",
+            "P-Precio": 23,
+            "P-Stock": 10
+        }
+    ],
+
+    [
+
+        {
+            "U-nombre": "Ana",
+            "D-envío": "C/Piruleta 8",
+            "N-tarjeta": "232313974132",
+            "P-nombre": "Supersubmarina"
+
+        }
+    ]
+
+
+
+]
+
