@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE ca>
+
+<tienda xmlns:t1 = "Este es mi identificador-Pueden ser URLs, ya que son unicas"
+xmlns:t2="Este es mi otro identificador"> 
+    <t1:producto>
+        esto es un producto
+    </t1:producto>
+
+    <t2:producto>
+        esto es un producto 
+    </t2:producto>
+</tienda>

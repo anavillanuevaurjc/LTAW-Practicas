@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Declaracion de la gramatica -->
+<!DOCTYPE tienda [
+    <!ELEMENT tienda (producto)> <!-- Puede contener 1 etiqueta producto-->
+    <!-- <!ELEMENT tienda (producto+)> producto+ < Es posible que se de más de 1 producto-->
+    <!ELEMENT producto (#PCDATA)>
+    
+]>
+<!-- PCDATA indica que unicamente pueden darse cadenas en el interior de la etiqueta-->
+
+<!-- Dentro del elemento tienda solo puede haber
+     cadenas de texto. Ninguna etiqueta -->
+<tienda>
+    <producto>
+        Hula 
+    </producto>
+</tienda>

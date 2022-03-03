@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Escribir el inicio del comentario para que se complete-->
+
+<!-- Comentario 
+multilinea -->
+
+<!-- Declaracion etiqueta raiz-->
+
+<!DOCTYPE ca>
+
+<tienda> 
+    <producto>
+        esto es un producto
+    </producto>
+
+    <producto>
+        esto es un producto 
+    </producto>
+</tienda>
