@@ -46,8 +46,7 @@ const server = http.createServer((req, res) => {
       content_type = "text/" + content;
     }
 
-  }else if (myURL.pathname == "/procesar") {
-    //filename = "respuesta_login.html";                  //-- FichRespuesta
+  }else if (myURL.pathname == "/procesar") {  //LOGIN                  //-- FichRespuesta
     content_type = "text/html";
     let nicknameIntr = myURL.searchParams.get('nombre');
     //console.log("Usuario:" + Usuario)
@@ -62,17 +61,21 @@ const server = http.createServer((req, res) => {
         filename = "form-user.html";
       }
     });
-
-    //¿Como puedo interactuar con JSON?
     
-    
-  }else if (myURL.pathname == "/carrito") {
+  }else if (myURL.pathname == "/carrito") {   //CARRITO
     filename = "respuesta_carrito.html";                //-- FichRespuesta
     content_type = "text/html";
     
-  }else if (myURL.pathname == "/acceso") {
+  }else if (myURL.pathname == "/acceso") {    //REGISTRO
     filename = "index.html";                             //-- FichRespuesta
     content_type = "text/html";
+    //-- Recorrer el array de usuarios
+    usuarios.forEach((element, index)=>{
+      console.log(element["nickname"]);
+      console.log(element["tipo"]);
+      console.log(element["nombre"]);
+      console.log(element["email"]);
+    });
     
   }else{
     content = (myURL.pathname).split(["."])[1]
