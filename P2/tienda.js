@@ -7,7 +7,7 @@ const url = require('url');
 const PUERTO = 9090;
 
 //-- HTML de la página de respuesta-->
-RESPUESTA = fs.readFileSync('index.html', 'utf-8');
+//RESPUESTA = fs.readFileSync('respuesta_login.html', 'utf-8');
 
 //-- JSON --> 
 //const FICH_JSON = "tienda.json";
@@ -42,7 +42,7 @@ const server = http.createServer((req, res) => {
     }
 
   }else if (myURL.pathname == "/procesar") {
-    filename = "index.html";                //-- Permite el salto a otra página
+    filename = "respuesta_login.html";                //-- Permite el salto a
     content_type = "text/html";
     //let Usuario = myURL.searchParams.get('nombre');
     //console.log("Usuario:" + Usuario)
