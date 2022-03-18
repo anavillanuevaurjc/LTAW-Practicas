@@ -49,6 +49,14 @@ const server = http.createServer((req, res) => {
     //content_type = "text/html";
     //data = fs.readFileSync('index.html', 'utf-8');
     
+  }else if (myURL.pathname == "/carrito") {
+    filename = "respuesta_carrito.html";                //-- Permite el salto a
+    content_type = "text/html";
+    //let Usuario = myURL.searchParams.get('nombre');
+    //console.log("Usuario:" + Usuario)
+    //content_type = "text/html";
+    //data = fs.readFileSync('index.html', 'utf-8');
+    
   }else{
     content = (myURL.pathname).split(["."])[1]
     if (content == "jpg" || content == "JPG") {

@@ -8,25 +8,27 @@
     <title>Formulario compra</title>
 </head>
 <body>
-    <div id = "formulario">
-        <a href="index.html"><img id = "one" src="vin.jpg" width="250" height="255" > </a>
-        <p></p>
-        <h4>CARRITO</h4>
-        <img src="logocarro.jpg" alt="Logo Carro" width="45" height="45">
-        <p></p>
-        Usuario:
-        <input type="text" name="nombre"/>
-        <p></p>
-        Dirección de envio:
-        <input type="text" name="nombre"/>
-        <p></p>
-        Número de tarjeta:
-        <input type="text" name="nombre"/>
-        <p></p>
-        Nombre del producto:
-        <input type="text" name="nombre"/>
-        <p></p>
-        <input class='button' type="submit" value="Enviar"/>
-    </div>
+    <form action="/carrito" method="get">
+        <div id = "formulario">
+            <a href="index.html"><img id = "one" src="vin.jpg" width="250" height="255" > </a>
+            <p></p>
+            <h4>CARRITO</h4>
+            <img src="logocarro.jpg" alt="Logo Carro" width="45" height="45">
+            <p></p>
+            Usuario:
+            <input type="text" name="nombre"/>
+            <p></p>
+            Dirección de envio:
+            <input type="text" name="nombre"/>
+            <p></p>
+            Número de tarjeta:
+            <input type="text" name="nombre"/>
+            <p></p>
+            Nombre del producto:
+            <input type="text" name="nombre"/>
+            <p></p>
+            <input class='button' type="submit" value="Enviar"/>
+        </div>
+    </form>
 </body>
 </html>
