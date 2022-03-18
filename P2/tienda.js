@@ -6,13 +6,28 @@ const url = require('url');
 //-- Puerto -->
 const PUERTO = 9090;
 
+//-- HTML de la página de respuesta-->
+RESPUESTA = fs.readFileSync('index.html', 'utf-8');
+
+//-- JSON --> 
+//const FICH_JSON = "tienda.json";
+//const TIENDA_JSON = fs.readFileSync(FICH_JSON);
+//const tienda = JSON.parse(TIENDA_JSON);
+//let productos = tienda[0]['productos'];
+//let usuarios = tienda[1]['usuarios'];
+
+
 //-- Servidor -->
 console.log("Escuchando...");
 
 const server = http.createServer((req, res) => {
-  console.log("Petición recibida!");
   const myURL = new URL(req.url, 'http://' + req.headers['host']);
-  console.log("URL solicitada: " + myURL.pathname);
+  console.log("");
+  console.log("Método: " + req.method);
+  console.log("Recurso: " + req.url);
+  console.log("  Ruta: " + myURL.pathname);
+  console.log("  Parametros: " + myURL.searchParams);
+  
   if (myURL.pathname == "/"){
     filename = "index.html"
     content = (myURL.pathname).split(["."])[1]
@@ -25,6 +40,15 @@ const server = http.createServer((req, res) => {
     }else{
       content_type = "text/" + content;
     }
+
+  }else if (myURL.pathname == "/procesar") {
+    filename = "index.html";                //-- Permite el salto a otra página
+    content_type = "text/html";
+    //let Usuario = myURL.searchParams.get('nombre');
+    //console.log("Usuario:" + Usuario)
+    //content_type = "text/html";
+    //data = fs.readFileSync('index.html', 'utf-8');
+    
   }else{
     content = (myURL.pathname).split(["."])[1]
     if (content == "jpg" || content == "JPG") {
@@ -39,9 +63,8 @@ const server = http.createServer((req, res) => {
     filename = "." + myURL.pathname;
   }
 
-  
-  console.log("URL busqueda correcta" + filename);
-  console.log("Tipo de contenido " + content);
+  //console.log("URL busqueda correcta" + filename);
+  //console.log("Tipo de contenido " + content);
 
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
@@ -51,6 +74,7 @@ const server = http.createServer((req, res) => {
         let code_msg = "Not Found";
         data = fs.readFileSync('error.html','utf8');
         content = (myURL.pathname).split(["."])[1]
+        
         if (content == "jpg" || content == "JPG") {
           content_type = "image/" + "jpeg";
         }else if (content == "png" || content == "PNG") {
@@ -60,10 +84,9 @@ const server = http.createServer((req, res) => {
         }else{
           content_type = "text/" + content;
         }
+
         res.statusCode = code;
         res.statusMessage = code_msg;
-        //res.statusCode = 404;
-        //res.statusMessage = "Not Found";
         res.setHeader('Content-Type', content_type);
         res.write(data);
         return res.end();
