@@ -42,7 +42,7 @@ const server = http.createServer((req, res) => {
     }
 
   }else if (myURL.pathname == "/procesar") {
-    filename = "respuesta_login.html";                //-- Permite el salto a
+    filename = "respuesta_login.html";                  //-- FichRespuesta
     content_type = "text/html";
     //let Usuario = myURL.searchParams.get('nombre');
     //console.log("Usuario:" + Usuario)
@@ -50,12 +50,12 @@ const server = http.createServer((req, res) => {
     //data = fs.readFileSync('index.html', 'utf-8');
     
   }else if (myURL.pathname == "/carrito") {
-    filename = "respuesta_carrito.html";                //-- Permite el salto a
+    filename = "respuesta_carrito.html";                //-- FichRespuesta
     content_type = "text/html";
-    //let Usuario = myURL.searchParams.get('nombre');
-    //console.log("Usuario:" + Usuario)
-    //content_type = "text/html";
-    //data = fs.readFileSync('index.html', 'utf-8');
+    
+  }else if (myURL.pathname == "/acceso") {
+    filename = "html.html";                             //-- FichRespuesta
+    content_type = "text/html";
     
   }else{
     content = (myURL.pathname).split(["."])[1]
