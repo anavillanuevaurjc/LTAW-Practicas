@@ -6,15 +6,21 @@ const url = require('url');
 //-- Puerto -->
 const PUERTO = 9090;
 
-//-- HTML de la página de respuesta-->
-//RESPUESTA = fs.readFileSync('respuesta_login.html', 'utf-8');
-
 //-- JSON --> 
-//const FICH_JSON = "tienda.json";
-//const TIENDA_JSON = fs.readFileSync(FICH_JSON);
-//const tienda = JSON.parse(TIENDA_JSON);
-//let productos = tienda[0]['productos'];
-//let usuarios = tienda[1]['usuarios'];
+
+//-- Nombre del fichero JSON a leer
+const fichero_JSON = "tienda.json";
+//-- Leer el fichero JSON
+const tienda_JSON = fs.readFileSync(fichero_JSON);
+//-- Crear la estructura tienda a partir del contenido del fichero
+const tienda = JSON.parse(tienda_JSON);
+const productos = tienda[0].productos;
+const usuarios = tienda[1].usuarios;
+const pedidos = tienda[2].pedidos;
+console.log("Productos tienda: " +  productos.length);
+console.log("Usuarios tienda: " +  usuarios.length);
+console.log("Pedidos tienda: " + pedidos.length);
+
 
 
 //-- Servidor -->
@@ -46,8 +52,9 @@ const server = http.createServer((req, res) => {
     content_type = "text/html";
     //let Usuario = myURL.searchParams.get('nombre');
     //console.log("Usuario:" + Usuario)
-    //content_type = "text/html";
-    //data = fs.readFileSync('index.html', 'utf-8');
+
+    //¿Como puedo interactuar con JSON?
+    
     
   }else if (myURL.pathname == "/carrito") {
     filename = "respuesta_carrito.html";                //-- FichRespuesta
