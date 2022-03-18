@@ -17,10 +17,9 @@ const tienda = JSON.parse(tienda_JSON);
 const productos = tienda[0].productos;
 const usuarios = tienda[1].usuarios;
 const pedidos = tienda[2].pedidos;
-console.log("Productos tienda: " +  productos.length);
-console.log("Usuarios tienda: " +  usuarios.length);
-console.log("Pedidos tienda: " + pedidos.length);
-
+//console.log("Productos tienda: " +  productos.length);
+//console.log("Usuarios tienda: " +  usuarios.length);
+//console.log("Pedidos tienda: " + pedidos.length);
 
 
 //-- Servidor -->
@@ -48,10 +47,21 @@ const server = http.createServer((req, res) => {
     }
 
   }else if (myURL.pathname == "/procesar") {
-    filename = "respuesta_login.html";                  //-- FichRespuesta
+    //filename = "respuesta_login.html";                  //-- FichRespuesta
     content_type = "text/html";
-    //let Usuario = myURL.searchParams.get('nombre');
+    let nicknameIntr = myURL.searchParams.get('nombre');
     //console.log("Usuario:" + Usuario)
+    //-- Recorrer el array de productos
+    usuarios.forEach((element, index)=>{
+      console.log("Usuario " + (index + 1) + ": " + element["nickname"]);
+      if (nicknameIntr == element["nickname"]) {
+        //El nombre indicado coincide con alguno de la base de datos
+        filename = "respuesta_login.html";
+      }else{
+        //El nombre indicado no coincide con ninguno en la base de datos
+        filename = "form-user.html";
+      }
+    });
 
     //¿Como puedo interactuar con JSON?
     
