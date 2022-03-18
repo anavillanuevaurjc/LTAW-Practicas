@@ -67,6 +67,8 @@ const server = http.createServer((req, res) => {
     content_type = "text/html";
     
   }else if (myURL.pathname == "/acceso") {    //REGISTRO
+    const users_number = usuarios.length;
+    console.log(users_number);
     filename = "index.html";                             //-- FichRespuesta
     content_type = "text/html";
     //-- Recorrer el array de usuarios
@@ -76,6 +78,12 @@ const server = http.createServer((req, res) => {
       console.log(element["nombre"]);
       console.log(element["email"]);
     });
+    usuarios[0]["nickname"] = "IceBeraker"
+    console.log( usuarios[0]["nickname"]);
+    //-- Convertir la variable a cadena JSON
+    let myJSON = JSON.stringify(usuarios);
+    //-- Guardarla en el fichero destino -> Este codigo = error
+    //fs.writeFileSync(tienda_JSON, myJSON);
     
   }else{
     content = (myURL.pathname).split(["."])[1]
