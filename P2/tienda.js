@@ -54,7 +54,7 @@ const server = http.createServer((req, res) => {
     content_type = "text/html";
     
   }else if (myURL.pathname == "/acceso") {
-    filename = "html.html";                             //-- FichRespuesta
+    filename = "index.html";                             //-- FichRespuesta
     content_type = "text/html";
     
   }else{
