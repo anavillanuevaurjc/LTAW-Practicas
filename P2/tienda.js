@@ -84,29 +84,20 @@ const server = http.createServer((req, res) => {
     let nombre_usuario = myURL.searchParams.get('nombre_usuario');
     let correo_electronico = myURL.searchParams.get('correo_electronico');
     //console.log(nombre + " " + nombre_usuario + " " + correo_electronico);
+    
+    //Permite añadir nuevos usuarios
+    usuarios[nu_usuarios] = ",{}";
+    usuarios[nu_usuarios] = usuarios[nu_usuarios - 1];
+    
 
-    //-- Recorrer el array de usuarios
-    usuarios.forEach((element, index)=>{
-      if (nombre_usuario == element["nickname"]) {
-        console.log("Nickname already used");
-      }else if (correo_electronico == element["email"]) {
-        console.log("Email already used");
-      }else{
-        //Funciona correctamente -> No puedo añadir datos nuevos
-        //usuarios[nu_usuarios ]["nombre"] = nombre;
-        //usuarios[nu_usuarios ]["tipo"] = "común";
-        //usuarios[nu_usuarios ]["nickname"] = nombre_usuario;
-        //usuarios[nu_usuarios ]["email"] = correo_electronico;
-        //-- Convertir la variable a cadena JSON
-        let myJSON = JSON.stringify(tienda);  
-        //-- Guardarla en el fichero destino
-        fs.writeFileSync(fichero_JSON, myJSON); 
-      }
-      console.log(element["nickname"]);
-      console.log(element["tipo"]);
-      console.log(element["nombre"]);
-      console.log(element["email"]);
-    });
+    //productos[0]["nombre"] = "AMAIA"
+    //console.log(productos[0]["nombre"]);
+    //-- Convertir la variable a cadena JSON
+    let myJSON = JSON.stringify(tienda);  
+    //-- Guardarla en el fichero destino
+    fs.writeFileSync(fichero_JSON, myJSON);   
+
+
 
 
     
