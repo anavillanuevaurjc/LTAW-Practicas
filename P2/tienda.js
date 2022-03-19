@@ -16,6 +16,7 @@ const tienda_JSON = fs.readFileSync(fichero_JSON);
 const tienda = JSON.parse(tienda_JSON);
 const productos = tienda[0].productos;
 const usuarios = tienda[1].usuarios;
+const nu_usuarios = usuarios.length;
 const pedidos = tienda[2].pedidos;
 //console.log("Productos tienda: " +  productos.length);
 //console.log("Usuarios tienda: " +  usuarios.length);
@@ -47,13 +48,13 @@ const server = http.createServer((req, res) => {
       content_type = "text/" + content;
     }
     //Funciona correctamente
-    console.log(productos[0]["nombre"]);
-    productos[0]["nombre"] = "AMAIA"
-    console.log(productos[0]["nombre"]);
+    //console.log(productos[0]["nombre"]);
+    //productos[0]["nombre"] = "AMAIA"
+    //console.log(productos[0]["nombre"]);
     //-- Convertir la variable a cadena JSON
-    let myJSON = JSON.stringify(tienda);  
+    //let myJSON = JSON.stringify(tienda);  
     //-- Guardarla en el fichero destino
-    fs.writeFileSync(fichero_JSON, myJSON);   
+    //fs.writeFileSync(fichero_JSON, myJSON);   
 
   }else if (myURL.pathname == "/procesar") {  //LOGIN                  //-- FichRespuesta
     content_type = "text/html";
@@ -76,17 +77,38 @@ const server = http.createServer((req, res) => {
     content_type = "text/html";
     
   }else if (myURL.pathname == "/acceso") {    //REGISTRO
-    const users_number = usuarios.length;
-    console.log(users_number);
     filename = "index.html";                             //-- FichRespuesta
     content_type = "text/html";
+    //-- Datos recogidos del fórmulario
+    let nombre = myURL.searchParams.get('nombre');
+    let nombre_usuario = myURL.searchParams.get('nombre_usuario');
+    let correo_electronico = myURL.searchParams.get('correo_electronico');
+    //console.log(nombre + " " + nombre_usuario + " " + correo_electronico);
+
     //-- Recorrer el array de usuarios
     usuarios.forEach((element, index)=>{
+      if (nombre_usuario == element["nickname"]) {
+        console.log("Nickname already used");
+      }else if (correo_electronico == element["email"]) {
+        console.log("Email already used");
+      }else{
+        //Funciona correctamente -> No puedo añadir datos nuevos
+        //usuarios[nu_usuarios ]["nombre"] = nombre;
+        //usuarios[nu_usuarios ]["tipo"] = "común";
+        //usuarios[nu_usuarios ]["nickname"] = nombre_usuario;
+        //usuarios[nu_usuarios ]["email"] = correo_electronico;
+        //-- Convertir la variable a cadena JSON
+        let myJSON = JSON.stringify(tienda);  
+        //-- Guardarla en el fichero destino
+        fs.writeFileSync(fichero_JSON, myJSON); 
+      }
       console.log(element["nickname"]);
       console.log(element["tipo"]);
       console.log(element["nombre"]);
       console.log(element["email"]);
     });
+
+
     
   }else{
     content = (myURL.pathname).split(["."])[1]
