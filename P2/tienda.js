@@ -79,19 +79,24 @@ const server = http.createServer((req, res) => {
   }else if (myURL.pathname == "/acceso") {    //REGISTRO
     filename = "index.html";                             //-- FichRespuesta
     content_type = "text/html";
-    //-- Datos recogidos del fórmulario
+    console.log("ENTRA AL FORMULARIOOOOOOOOOOOOO");
+    //-- Datos recogidos del formulario
     let nombre = myURL.searchParams.get('nombre');
     let nombre_usuario = myURL.searchParams.get('nombre_usuario');
     let correo_electronico = myURL.searchParams.get('correo_electronico');
-    //console.log(nombre + " " + nombre_usuario + " " + correo_electronico);
-    
-    //Permite añadir nuevos usuarios
-    usuarios[nu_usuarios] = ",{}";
-    usuarios[nu_usuarios] = usuarios[nu_usuarios - 1];
-    
 
-    //productos[0]["nombre"] = "AMAIA"
-    //console.log(productos[0]["nombre"]);
+
+    //Permite añadir nuevos usuarios -------------- ¿Como puedo añadir las llaves?
+    usuarios[nu_usuarios - 1] = usuarios[0];
+
+
+    //Adicion informacion nuevos usuarios
+    usuarios[1]["nickname"] = nombre_usuario;
+    //usuarios[nu_usuarios - 1]["tipo"] = "normal";
+    //usuarios[nu_usuarios - 1]["nombre"] = nombre;
+    //usuarios[nu_usuarios - 1]["email"] = correo_electronico;
+
+    //console.log(usuarios[nu_usuarios]);
     //-- Convertir la variable a cadena JSON
     let myJSON = JSON.stringify(tienda);  
     //-- Guardarla en el fichero destino
