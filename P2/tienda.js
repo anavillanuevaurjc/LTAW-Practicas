@@ -27,11 +27,12 @@ console.log("Escuchando...");
 
 const server = http.createServer((req, res) => {
   const myURL = new URL(req.url, 'http://' + req.headers['host']);
-  console.log("");
-  console.log("Método: " + req.method);
-  console.log("Recurso: " + req.url);
-  console.log("  Ruta: " + myURL.pathname);
-  console.log("  Parametros: " + myURL.searchParams);
+  //console.log("");
+  //console.log("Método: " + req.method);
+  //console.log("Recurso: " + req.url);
+  //console.log("  Ruta: " + myURL.pathname);
+  //console.log("  Parametros: " + myURL.searchParams);
+  //console.log(productos[0]["nombre"]);
   
   if (myURL.pathname == "/"){
     filename = "index.html"
@@ -45,6 +46,14 @@ const server = http.createServer((req, res) => {
     }else{
       content_type = "text/" + content;
     }
+    //Funciona correctamente
+    console.log(productos[0]["nombre"]);
+    productos[0]["nombre"] = "AMAIA"
+    console.log(productos[0]["nombre"]);
+    //-- Convertir la variable a cadena JSON
+    let myJSON = JSON.stringify(tienda);  
+    //-- Guardarla en el fichero destino
+    fs.writeFileSync(fichero_JSON, myJSON);   
 
   }else if (myURL.pathname == "/procesar") {  //LOGIN                  //-- FichRespuesta
     content_type = "text/html";
@@ -78,12 +87,6 @@ const server = http.createServer((req, res) => {
       console.log(element["nombre"]);
       console.log(element["email"]);
     });
-    usuarios[0]["nickname"] = "IceBeraker"
-    console.log( usuarios[0]["nickname"]);
-    //-- Convertir la variable a cadena JSON
-    let myJSON = JSON.stringify(usuarios);
-    //-- Guardarla en el fichero destino -> Este codigo = error
-    //fs.writeFileSync(tienda_JSON, myJSON);
     
   }else{
     content = (myURL.pathname).split(["."])[1]
@@ -98,7 +101,6 @@ const server = http.createServer((req, res) => {
     }
     filename = "." + myURL.pathname;
   }
-
   //console.log("URL busqueda correcta" + filename);
   //console.log("Tipo de contenido " + content);
 
