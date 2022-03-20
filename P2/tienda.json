@@ -26,6 +26,12 @@
         "tipo":"root",
         "nombre":"Ana Villanueva",
         "email": "Ana_Banana@gmail.com"
+    },
+    {
+        "nickname":"Sergio_Portalo",
+        "tipo":"normal",
+        "nombre":"Sergio Portalo",
+        "email": "SRP@gmail.com"
     }
     ]},
 
