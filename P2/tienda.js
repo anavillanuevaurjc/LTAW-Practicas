@@ -29,6 +29,7 @@ console.log("Escuchando...");
 
 const server = http.createServer((req, res) => {
   const myURL = new URL(req.url, 'http://' + req.headers['host']);
+  let Usuario = "";
   
   if (myURL.pathname == "/"){
     filename = "index.html"
@@ -54,7 +55,7 @@ const server = http.createServer((req, res) => {
   }else if (myURL.pathname == "/procesar") {  //LOGIN                  //-- FichRespuesta
     
     content_type = "text/html";
-    let Usuario = myURL.searchParams.get('accesoUsuario');
+    Usuario = myURL.searchParams.get('accesoUsuario');
     let contadorA = 0;
     //-- Recorrer el array de productos
     usuarios.forEach((element, index)=>{
@@ -104,15 +105,16 @@ const server = http.createServer((req, res) => {
     }
     filename = "." + myURL.pathname;
   }
-
+  console.log(Usuario);
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
     console.log(filename);
     if (filename == "respuesta_login.html") {
+      console.log(Usuario);
       console.log("SIU");
       //------------------------------
-      const PRUEBA = fs.readFileSync('respuesta_login.html', 'utf-8');
-      data = PRUEBA.replace("NOMBRE", "AA");
+      const respuesta_login = fs.readFileSync('respuesta_login.html', 'utf-8');
+      data = respuesta_login.replace("*NOMBRE*", Usuario);
       res.setHeader('Content-Type', content_type);
       res.write(data);
       return res.end();
