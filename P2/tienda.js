@@ -2,6 +2,7 @@
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
+const { count } = require('console');
 
 //-- Puerto -->
 const PUERTO = 9090;
@@ -68,27 +69,27 @@ const server = http.createServer((req, res) => {
       filename = "form-user.html";
     }
     
+    
   }else if (myURL.pathname == "/carrito") {   //CARRITO
     filename = "respuesta_carrito.html";                //-- FichRespuesta
     content_type = "text/html";
     
-  }else if (myURL.pathname == "/acceso") {    //REGISTRO
+  }else if (myURL.pathname == "/acceso") {    //REGISTRO -> No es necesario
     filename = "index.html";                             //-- FichRespuesta
     content_type = "text/html";
     //-- Datos recogidos del formulario
     let nombre = myURL.searchParams.get('nombre');
     let nombre_usuario = myURL.searchParams.get('nombre_usuario');
     let correo_electronico = myURL.searchParams.get('correo_electronico');
-    //-- Modificacion JSON
+
+    //-- Modificacion JSON -> No es encesario
     //-- En la posicion [0] esta el 1er cliente
     //-- En la posicion [1] esta el 2º cliente 
-
     //-- ¿Como puedo introducir las variables del nuevo cliente?
-
     //-- Convertir la variable a cadena JSON
-    let myJSON = JSON.stringify(tienda);  
+    //let myJSON = JSON.stringify(tienda);  
     //-- Guardarla en el fichero destino
-    fs.writeFileSync(fichero_JSON, myJSON);   
+    //fs.writeFileSync(fichero_JSON, myJSON);   
     
   }else{
     content = (myURL.pathname).split(["."])[1]
@@ -106,6 +107,16 @@ const server = http.createServer((req, res) => {
 
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
+    console.log(filename);
+    if (filename == "respuesta_login.html") {
+      console.log("SIU");
+      //------------------------------
+      const PRUEBA = fs.readFileSync('respuesta_login.html', 'utf-8');
+      data = PRUEBA.replace("NOMBRE", "AA");
+      res.setHeader('Content-Type', content_type);
+      res.write(data);
+      return res.end();
+    }
     if (err) {
         console.log('Error')
         let code = 404;
@@ -129,14 +140,14 @@ const server = http.createServer((req, res) => {
         res.write(data);
         return res.end();
     }
-
+    
     console.log(content_type)
     let code = 200;
     let code_msg = "OK";
     res.statusCode = code;
     res.statusMessage = code_msg;
-    res.write(data);  //Su ausencia da lugar a error 
-    res.end();      //Su ausencia da lugar a error 
+    res.write(data);  
+    res.end();      
   });  
 });
 
