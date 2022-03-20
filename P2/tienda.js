@@ -28,12 +28,6 @@ console.log("Escuchando...");
 
 const server = http.createServer((req, res) => {
   const myURL = new URL(req.url, 'http://' + req.headers['host']);
-  //console.log("");
-  //console.log("Método: " + req.method);
-  //console.log("Recurso: " + req.url);
-  //console.log("  Ruta: " + myURL.pathname);
-  //console.log("  Parametros: " + myURL.searchParams);
-  //console.log(productos[0]["nombre"]);
   
   if (myURL.pathname == "/"){
     filename = "index.html"
@@ -57,16 +51,17 @@ const server = http.createServer((req, res) => {
     //fs.writeFileSync(fichero_JSON, myJSON);   
 
   }else if (myURL.pathname == "/procesar") {  //LOGIN                  //-- FichRespuesta
+    
     content_type = "text/html";
     let Usuario = myURL.searchParams.get('accesoUsuario');
-    //-- Recorrer el array de productos
     let contadorA = 0;
+    //-- Recorrer el array de productos
     usuarios.forEach((element, index)=>{
       if (Usuario == element["nickname"]) {
         contadorA =+ 1;
       } 
     });
-    
+    //-- Si el contador es distinto de 0 -> usuario dado coincide con usuarios registrados
     if (contadorA != 0) {
       filename = "respuesta_login.html";
     }else{
@@ -80,31 +75,20 @@ const server = http.createServer((req, res) => {
   }else if (myURL.pathname == "/acceso") {    //REGISTRO
     filename = "index.html";                             //-- FichRespuesta
     content_type = "text/html";
-    //console.log("ENTRA AL FORMULARIOOOOOOOOOOOOO");
     //-- Datos recogidos del formulario
     let nombre = myURL.searchParams.get('nombre');
     let nombre_usuario = myURL.searchParams.get('nombre_usuario');
     let correo_electronico = myURL.searchParams.get('correo_electronico');
     //-- Modificacion JSON
-    //console.log(nu_usuarios);
-    //console.log(usuarios.length);
-    //usuarios[usuarios.length - 1] = usuarios[0];
-    
-    //console.log(usuarios[usuarios.length - 1]["nickname"]);
-    //console.log(usuarios[usuarios.length - 1]["nickname"]);
-    //usuarios[usuarios.length - 1]["nickname"] = nombre_usuario;
-    //usuarios[usuarios.length - 1]["tipo"] = "normal";
-    //usuarios[usuarios.length - 1]["nombre"] = nombre;
-    //usuarios[usuarios.length - 1]["email"] = correo_electronico;
+    //-- En la posicion [0] esta el 1er cliente
+    //-- En la posicion [1] esta el 2º cliente 
+
+    //-- ¿Como puedo introducir las variables del nuevo cliente?
 
     //-- Convertir la variable a cadena JSON
     let myJSON = JSON.stringify(tienda);  
     //-- Guardarla en el fichero destino
     fs.writeFileSync(fichero_JSON, myJSON);   
-
-
-
-
     
   }else{
     content = (myURL.pathname).split(["."])[1]
@@ -119,8 +103,6 @@ const server = http.createServer((req, res) => {
     }
     filename = "." + myURL.pathname;
   }
-  //console.log("URL busqueda correcta" + filename);
-  //console.log("Tipo de contenido " + content);
 
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
