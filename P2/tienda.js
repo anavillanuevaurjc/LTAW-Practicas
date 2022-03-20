@@ -58,19 +58,20 @@ const server = http.createServer((req, res) => {
 
   }else if (myURL.pathname == "/procesar") {  //LOGIN                  //-- FichRespuesta
     content_type = "text/html";
-    let nicknameIntr = myURL.searchParams.get('nombre');
-    //console.log("Usuario:" + Usuario)
+    let Usuario = myURL.searchParams.get('accesoUsuario');
     //-- Recorrer el array de productos
+    let contadorA = 0;
     usuarios.forEach((element, index)=>{
-      console.log("Usuario " + (index + 1) + ": " + element["nickname"]);
-      if (nicknameIntr == element["nickname"]) {
-        //El nombre indicado coincide con alguno de la base de datos
-        filename = "respuesta_login.html";
-      }else{
-        //El nombre indicado no coincide con ninguno en la base de datos
-        filename = "form-user.html";
-      }
+      if (Usuario == element["nickname"]) {
+        contadorA =+ 1;
+      } 
     });
+    
+    if (contadorA != 0) {
+      filename = "respuesta_login.html";
+    }else{
+      filename = "form-user.html";
+    }
     
   }else if (myURL.pathname == "/carrito") {   //CARRITO
     filename = "respuesta_carrito.html";                //-- FichRespuesta
@@ -79,24 +80,23 @@ const server = http.createServer((req, res) => {
   }else if (myURL.pathname == "/acceso") {    //REGISTRO
     filename = "index.html";                             //-- FichRespuesta
     content_type = "text/html";
-    console.log("ENTRA AL FORMULARIOOOOOOOOOOOOO");
+    //console.log("ENTRA AL FORMULARIOOOOOOOOOOOOO");
     //-- Datos recogidos del formulario
     let nombre = myURL.searchParams.get('nombre');
     let nombre_usuario = myURL.searchParams.get('nombre_usuario');
     let correo_electronico = myURL.searchParams.get('correo_electronico');
+    //-- Modificacion JSON
+    //console.log(nu_usuarios);
+    //console.log(usuarios.length);
+    //usuarios[usuarios.length - 1] = usuarios[0];
+    
+    //console.log(usuarios[usuarios.length - 1]["nickname"]);
+    //console.log(usuarios[usuarios.length - 1]["nickname"]);
+    //usuarios[usuarios.length - 1]["nickname"] = nombre_usuario;
+    //usuarios[usuarios.length - 1]["tipo"] = "normal";
+    //usuarios[usuarios.length - 1]["nombre"] = nombre;
+    //usuarios[usuarios.length - 1]["email"] = correo_electronico;
 
-
-    //Permite añadir nuevos usuarios -------------- ¿Como puedo añadir las llaves?
-    usuarios[nu_usuarios - 1] = usuarios[0];
-
-
-    //Adicion informacion nuevos usuarios
-    usuarios[1]["nickname"] = nombre_usuario;
-    //usuarios[nu_usuarios - 1]["tipo"] = "normal";
-    //usuarios[nu_usuarios - 1]["nombre"] = nombre;
-    //usuarios[nu_usuarios - 1]["email"] = correo_electronico;
-
-    //console.log(usuarios[nu_usuarios]);
     //-- Convertir la variable a cadena JSON
     let myJSON = JSON.stringify(tienda);  
     //-- Guardarla en el fichero destino
