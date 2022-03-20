@@ -105,14 +105,10 @@ const server = http.createServer((req, res) => {
     }
     filename = "." + myURL.pathname;
   }
-  console.log(Usuario);
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
     console.log(filename);
     if (filename == "respuesta_login.html") {
-      console.log(Usuario);
-      console.log("SIU");
-      //------------------------------
       const respuesta_login = fs.readFileSync('respuesta_login.html', 'utf-8');
       data = respuesta_login.replace("*NOMBRE*", Usuario);
       res.setHeader('Content-Type', content_type);
