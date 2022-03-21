@@ -30,6 +30,12 @@ console.log("Escuchando...");
 const server = http.createServer((req, res) => {
   const myURL = new URL(req.url, 'http://' + req.headers['host']);
   let Usuario = "";
+  //--Descripciones de los productos
+  let product_Name = "";
+  let product_Description = "";
+  let product_Price = "";
+  let product_Stock = "";
+  
   
   if (myURL.pathname == "/"){
     filename = "index.html"
@@ -104,16 +110,67 @@ const server = http.createServer((req, res) => {
       content_type = "text/" + content;
     }
     filename = "." + myURL.pathname;
+
+    //-- Obtención de los elementos de la base de datos
+
+    if (filename == "./p1.html"){
+      product_Name = productos[0]["nombre"];
+      product_Description = productos[0]["descripcion"];
+      product_Price = productos[0]["precio"];
+      product_Stock = productos[0]["stock"];;
+    }else if(filename == "./p2.html"){
+      product_Name = productos[1]["nombre"];
+      product_Description = productos[1]["descripcion"];
+      product_Price = productos[1]["precio"];
+      product_Stock = productos[1]["stock"];;
+    }else if(filename == "./p3.html"){
+      product_Name = productos[2]["nombre"];
+      product_Description = productos[2]["descripcion"];
+      product_Price = productos[2]["precio"];
+      product_Stock = productos[2]["stock"];
+    }else{
+      product_Description = "";
+    }
   }
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
-    console.log(filename);
+
+    //Páginas de los productos
+    
+    if (filename == "./p1.html"){
+      //console.log("Hay p1.html");
+      const fichero = fs.readFileSync('p1.html', 'utf-8');
+      data = fichero.replace("*DESCRIPCION*", product_Name);
+      data = data.replace("*GENERO*", product_Description);
+      data = data.replace("*PRECIO*", product_Price);
+      data = data.replace("*STOCK*", product_Stock);
+    }
+
+    if (filename == "./p2.html"){
+      //console.log("Hay p1.html");
+      const fichero = fs.readFileSync('p2.html', 'utf-8');
+      data = fichero.replace("*DESCRIPCION*", product_Name);
+      data = data.replace("*GENERO*", product_Description);
+      data = data.replace("*PRECIO*", product_Price);
+      data = data.replace("*STOCK*", product_Stock);
+    }
+
+    if (filename == "./p3.html"){
+      //console.log("Hay p1.html");
+      const fichero = fs.readFileSync('p3.html', 'utf-8');
+      data = fichero.replace("*DESCRIPCION*", product_Name);
+      data = data.replace("*GENERO*", product_Description);
+      data = data.replace("*PRECIO*", product_Price);
+      data = data.replace("*STOCK*", product_Stock);
+    }
+
+
     if (filename == "respuesta_login.html") {
       const respuesta_login = fs.readFileSync('respuesta_login.html', 'utf-8');
       data = respuesta_login.replace("*NOMBRE*", Usuario);
-      res.setHeader('Content-Type', content_type);
-      res.write(data);
-      return res.end();
+      //res.setHeader('Content-Type', content_type);
+      //res.write(data);
+      //return res.end();
     }
     if (err) {
         console.log('Error')

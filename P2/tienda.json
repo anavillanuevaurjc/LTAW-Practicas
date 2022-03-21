@@ -2,19 +2,19 @@
     {"productos":[
       {
         "nombre":"Amaia",
-        "descripcion":"Disco indie",
+        "descripcion":"Indie",
         "precio":"20 euros",
         "stock": "10"
       },
       {
         "nombre":"Foster the people",
-        "descripcion":"Disco indie",
+        "descripcion":"Indie",
         "precio":"30 euros",
         "stock": "12"
       },
       {
         "nombre":"Supersubmarina",
-        "descripcion":"Disco indie",
+        "descripcion":"Indie",
         "precio":"10 euros",
         "stock": "2"
       }
