@@ -1,6 +1,6 @@
 body{
     background-image: url(fondo.jpg);
-    color: black;
+    color: white;
 }
 #portada {
     text-align: center;
@@ -19,6 +19,7 @@ body{
 
 #formulario{
     text-align: center;
+    color: black;
     background-color: rgba(209, 209, 228, 0.699);
     margin-left: 50px ;
     margin-right: 50px ;

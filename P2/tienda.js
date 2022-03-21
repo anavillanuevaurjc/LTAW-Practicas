@@ -35,6 +35,8 @@ const server = http.createServer((req, res) => {
   let product_Description = "";
   let product_Price = "";
   let product_Stock = "";
+  //--Contador login
+  let contadorA = 0;
   
   
   if (myURL.pathname == "/"){
@@ -62,7 +64,7 @@ const server = http.createServer((req, res) => {
     
     content_type = "text/html";
     Usuario = myURL.searchParams.get('accesoUsuario');
-    let contadorA = 0;
+    contadorA = 0;
     //-- Recorrer el array de productos
     usuarios.forEach((element, index)=>{
       if (Usuario == element["nickname"]) {
@@ -71,7 +73,7 @@ const server = http.createServer((req, res) => {
     });
     //-- Si el contador es distinto de 0 -> usuario dado coincide con usuarios registrados
     if (contadorA != 0) {
-      filename = "respuesta_login.html";
+      filename = "index.html";
     }else{
       filename = "form-user.html";
     }
@@ -135,6 +137,18 @@ const server = http.createServer((req, res) => {
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
 
+    console.log("CONTADORA" + contadorA);
+
+    //Página principal
+ 
+    if (filename == "index.html" && contadorA == 0 || filename== "./index.html" && contadorA == 0 ){
+      const fichero = fs.readFileSync('index.html', 'utf-8');
+      data = fichero.replace("*USUARIO*", "BIENVENIDO");
+    }else if (filename == "index.html" && contadorA == 1){
+      const fichero = fs.readFileSync('index.html', 'utf-8');
+      data = fichero.replace("*USUARIO*", Usuario);
+    }
+    
     //Páginas de los productos
     
     if (filename == "./p1.html"){
