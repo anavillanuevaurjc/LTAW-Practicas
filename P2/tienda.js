@@ -37,6 +37,9 @@ const server = http.createServer((req, res) => {
   let product_Stock = "";
   //--Contador login
   let contadorA = 0;
+  //-- Cookies
+  const cookie = req.headers.cookie;
+  console.log("COOKIE" + cookie);
   
   
   if (myURL.pathname == "/"){
@@ -137,16 +140,18 @@ const server = http.createServer((req, res) => {
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
 
-    console.log("CONTADORA" + contadorA);
-
     //Página principal
  
     if (filename == "index.html" && contadorA == 0 || filename== "./index.html" && contadorA == 0 ){
+      //-- No sesión inicializada
       const fichero = fs.readFileSync('index.html', 'utf-8');
       data = fichero.replace("*USUARIO*", "BIENVENIDO");
     }else if (filename == "index.html" && contadorA == 1){
+      //-- Si sesión inicializada
       const fichero = fs.readFileSync('index.html', 'utf-8');
       data = fichero.replace("*USUARIO*", Usuario);
+      //-- Asignar la cookie de usuario Chuck
+      res.setHeader('Set-Cookie', "user=nombre-" + Usuario);
     }
     
     //Páginas de los productos
@@ -178,7 +183,17 @@ const server = http.createServer((req, res) => {
       data = data.replace("*STOCK*", product_Stock);
     }
 
+    //-- Login 
 
+    //console.log(filename);
+    if (filename == "./login-user.html" && cookie != undefined){
+      cookie_user = cookie.split('-');
+      const fichero = fs.readFileSync('respuesta_login.html', 'utf-8');
+      data = fichero.replace("*NOMBRE*", cookie_user[1]);
+    }else if (filename == "./login-user.html" && cookie == undefined){
+      data = fs.readFileSync('login-user.html', 'utf-8');
+    }
+    /*
     if (filename == "respuesta_login.html") {
       const respuesta_login = fs.readFileSync('respuesta_login.html', 'utf-8');
       data = respuesta_login.replace("*NOMBRE*", Usuario);
@@ -186,6 +201,7 @@ const server = http.createServer((req, res) => {
       //res.write(data);
       //return res.end();
     }
+    */
     if (err) {
         console.log('Error')
         let code = 404;
