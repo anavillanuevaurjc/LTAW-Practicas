@@ -39,8 +39,7 @@ const server = http.createServer((req, res) => {
   let contadorA = 0;
   //-- Cookies
   const cookie = req.headers.cookie;
-  console.log("COOKIE" + cookie);
-  
+  let cookie_product = "";
   
   if (myURL.pathname == "/"){
     filename = "index.html"
@@ -122,12 +121,13 @@ const server = http.createServer((req, res) => {
       product_Name = productos[0]["nombre"];
       product_Description = productos[0]["descripcion"];
       product_Price = productos[0]["precio"];
-      product_Stock = productos[0]["stock"];;
+      product_Stock = productos[0]["stock"];
+      
     }else if(filename == "./p2.html"){
       product_Name = productos[1]["nombre"];
       product_Description = productos[1]["descripcion"];
       product_Price = productos[1]["precio"];
-      product_Stock = productos[1]["stock"];;
+      product_Stock = productos[1]["stock"];
     }else if(filename == "./p3.html"){
       product_Name = productos[2]["nombre"];
       product_Description = productos[2]["descripcion"];
@@ -136,10 +136,13 @@ const server = http.createServer((req, res) => {
     }else{
       product_Description = "";
     }
+
+    //-- Inyección de producto en carrtio
+
   }
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
-
+    console.log(cookie);
     //Página principal
  
     if (filename == "index.html" && contadorA == 0 || filename== "./index.html" && contadorA == 0 ){
@@ -163,6 +166,7 @@ const server = http.createServer((req, res) => {
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);
+      res.setHeader('Set-Cookie', "carritor=" + product_Name);
     }
 
     if (filename == "./p2.html"){
@@ -172,6 +176,7 @@ const server = http.createServer((req, res) => {
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);
+      res.setHeader('Set-Cookie', "carritor=" + product_Name);
     }
 
     if (filename == "./p3.html"){
@@ -181,27 +186,28 @@ const server = http.createServer((req, res) => {
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);
+      res.setHeader('Set-Cookie', "carritor=" + product_Name);
     }
 
     //-- Login 
-
-    //console.log(filename);
     if (filename == "./login-user.html" && cookie != undefined){
       cookie_user = cookie.split('-');
+      cookie_user =cookie_user[1].split(';')[0];
       const fichero = fs.readFileSync('respuesta_login.html', 'utf-8');
-      data = fichero.replace("*NOMBRE*", cookie_user[1]);
+      data = fichero.replace("*NOMBRE*", cookie_user);
     }else if (filename == "./login-user.html" && cookie == undefined){
       data = fs.readFileSync('login-user.html', 'utf-8');
     }
-    /*
-    if (filename == "respuesta_login.html") {
-      const respuesta_login = fs.readFileSync('respuesta_login.html', 'utf-8');
-      data = respuesta_login.replace("*NOMBRE*", Usuario);
-      //res.setHeader('Content-Type', content_type);
-      //res.write(data);
-      //return res.end();
+    //-- Añadir cookie producto escogido 
+    
+    if (filename == "./add_product.html") {
+      cookie_product = cookie.split('carritor=');
+      console.log(cookie_product[1] + "AAAA");
+      //cookie_product =cookie_user[1].split(';')[1];
+      //console.log("aaaa" + cookie_product);
     }
-    */
+    
+
     if (err) {
         console.log('Error')
         let code = 404;
