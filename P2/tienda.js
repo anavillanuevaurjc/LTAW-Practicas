@@ -87,13 +87,21 @@ const server = http.createServer((req, res) => {
     content_type = "text/html";
     //-- Tomar de las cookies 
       //-- Nombre
-      cookie_user = cookie.split('-');
-      cookie_user =cookie_user[1].split(';')[0];
-      console.log("COOKIEUSER " +  cookie_user);
+    cookie_user = cookie.split('-');
+    cookie_user =cookie_user[1].split(';')[0];
+    console.log("COOKIEUSER " +  cookie_user);
       //-- Carrito
-      cookie_product =cookie[1].split(';')[1];
-      cookie_product = cookie.split('carritor=')[1];
-      console.log("COOKIEPRODUCT " + cookie_product);
+    cookie_product =cookie[1].split(';')[1];
+    cookie_product = cookie.split('carritor=')[1];
+    console.log("COOKIEPRODUCT " + cookie_product);
+    //-- Tomar de los valores introducidos 
+    //-- COMO PUEDO INTRODUCIR ESTOS DATOS AL JSON
+    let direccion = myURL.searchParams.get('direccion');
+    console.log(direccion);
+    let tarjeta = myURL.searchParams.get('tarjeta');
+    console.log(tarjeta);
+
+    
     
   }else if (myURL.pathname == "/acceso") {    //REGISTRO -> No es necesario
     filename = "index.html";                             //-- FichRespuesta
