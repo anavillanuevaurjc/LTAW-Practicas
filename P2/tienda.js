@@ -162,16 +162,29 @@ const server = http.createServer((req, res) => {
     console.log(cookie);
     //Página principal
  
-    if (filename == "index.html" && contadorA == 0 || filename== "./index.html" && contadorA == 0 ){
+    if (filename == "index.html" || filename== "./index.html" ){
       //-- No sesión inicializada
-      const fichero = fs.readFileSync('index.html', 'utf-8');
-      data = fichero.replace("*USUARIO*", "BIENVENIDO");
-    }else if (filename == "index.html" && contadorA == 1){
-      //-- Si sesión inicializada
-      const fichero = fs.readFileSync('index.html', 'utf-8');
-      data = fichero.replace("*USUARIO*", Usuario);
-      //-- Asignar la cookie de usuario Chuck
-      res.setHeader('Set-Cookie', "user=nombre-" + Usuario);
+      if (contadorA  == 0) {
+        if (cookie == undefined){
+          const fichero = fs.readFileSync('index.html', 'utf-8');
+          data = fichero.replace("*USUARIO*", "BIENVENIDO");
+        }else{
+          cookie_user = cookie.split('-');
+          cookie_user =cookie_user[1].split(';')[0];
+          const fichero = fs.readFileSync('index.html', 'utf-8');
+          data = fichero.replace("*USUARIO*", cookie_user);
+        }
+        
+        
+      }else if (contadorA != 0) {
+        //-- Si sesión inicializada
+        if (cookie == undefined) {
+          const fichero = fs.readFileSync('index.html', 'utf-8');
+          data = fichero.replace("*USUARIO*", Usuario);
+          //-- Asignar la cookie de usuario Chuck
+          res.setHeader('Set-Cookie', "user=nombre-" + Usuario);
+        }
+      }
     }
     
     //Páginas de los productos
