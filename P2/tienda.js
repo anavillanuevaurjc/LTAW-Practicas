@@ -74,6 +74,7 @@ const server = http.createServer((req, res) => {
     
     
   }else if (myURL.pathname == "/carrito") {   //CARRITO
+    contadorC = 0;
     filename = "respuesta_carrito.html";                //-- FichRespuesta
     content_type = "text/html";
     //-- Tomar de las cookies 
@@ -89,21 +90,27 @@ const server = http.createServer((req, res) => {
     let direccion = myURL.searchParams.get('direccion');
     let tarjeta = myURL.searchParams.get('tarjeta');
     
-    //-- Adición
-    var nuevo_ped = {};
-    nuevo_ped = { "nickname": "", "direccion": "","tarjeta" : "", "producto" : ""};
-    pedidos.push(nuevo_ped);
-    pedidos[pedidos.length - 1]["nickname"] = cookie_user;
-    pedidos[pedidos.length - 1]["direccion"] = direccion;
-    pedidos[pedidos.length - 1]["tarjeta"] = tarjeta;
-    pedidos[pedidos.length - 1]["producto"] = cookie_product;
+    //-- No funciona
+    if (direccion == "" || tarjeta == "" || cookie_user == "" || cookie_product == ""){
+      console.log("NOOOOOOOOOOO");
+    }else{
+      console.log("SIIIIIIIIIII");
+      //-- Adición
+      var nuevo_ped = {};
+      nuevo_ped = { "nickname": "", "direccion": "","tarjeta" : "", "producto" : ""};
+      pedidos.push(nuevo_ped);
+      pedidos[pedidos.length - 1]["nickname"] = cookie_user;
+      pedidos[pedidos.length - 1]["direccion"] = direccion;
+      pedidos[pedidos.length - 1]["tarjeta"] = tarjeta;
+      pedidos[pedidos.length - 1]["producto"] = cookie_product;
+      //-- Convertir la variable a cadena JSON
+      let myJSON = JSON.stringify(tienda);  
+      //-- Guardarla en el fichero destino
+      fs.writeFileSync(fichero_JSON, myJSON); 
+      //-- Compra satisfactoria
+      contadorC =+ 1;
+    }
 
-    //-- Convertir la variable a cadena JSON
-    let myJSON = JSON.stringify(tienda);  
-    //-- Guardarla en el fichero destino
-    fs.writeFileSync(fichero_JSON, myJSON); 
-    
-    
   }else if (myURL.pathname == "/acceso") {    //REGISTRO -> No es necesario
     filename = "index.html";                             //-- FichRespuesta
     content_type = "text/html";
@@ -159,9 +166,9 @@ const server = http.createServer((req, res) => {
   }
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
-    console.log(cookie);
+    
     //Página principal
- 
+
     if (filename == "index.html" || filename== "./index.html" ){
       //-- No sesión inicializada
       if (contadorA  == 0) {
@@ -174,8 +181,6 @@ const server = http.createServer((req, res) => {
           const fichero = fs.readFileSync('index.html', 'utf-8');
           data = fichero.replace("*USUARIO*", cookie_user);
         }
-        
-        
       }else if (contadorA != 0) {
         //-- Si sesión inicializada
         if (cookie == undefined) {
@@ -264,19 +269,18 @@ const server = http.createServer((req, res) => {
         data = fichero.replace("*DESCRIPCION*", "No puedes añadir el producto a la cesta sin estar registrado");
       }
     }
- /*
-    if (filename == "./add_product.html" && cookie != null) {
-      console.log(product_Name + "NO SE MANTIENE")
-      cookie_product =cookie[1].split(';')[1];
-      cookie_product = cookie.split('carritor=')[1];
-      const fichero = fs.readFileSync('add_product.html', 'utf-8');
-      data = fichero.replace("*DESCRIPCION*", "Producto añadido al carrito con exito");
-    }else if (filename == "./add_product.html" && cookie == null){
-      cookie_product = null;
-      const fichero = fs.readFileSync('add_product.html', 'utf-8');
-      data = fichero.replace("*DESCRIPCION*", "No estas registrado, por tanto, no puedes añadir productos al carrito");
+
+    //-- Respuesta al realizar la compra
+    if (filename == "./respuesta_carrito.html" && contadorC == 1){
+      //Satisfactorio
+      const fichero = fs.readFileSync('respuesta_carrito.html', 'utf-8');
+      data = fichero.replace("*DESCRIPCION*", "Compra finalizada");
+    }else if (filename == "./respuesta_carrito" && contadorC == 0){
+      //No satisfactorio
+      const fichero = fs.readFileSync('respuesta_carrito.html', 'utf-8');
+      data = fichero.replace("*DESCRIPCION*", "No se ha podido realizar la compra. Revise los parametros introducidos");
     }
-*/
+    //Errores
 
     if (err) {
         console.log('Error')
