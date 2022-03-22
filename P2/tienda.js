@@ -215,16 +215,20 @@ const server = http.createServer((req, res) => {
     
     //-- Añadir cookie producto escogido -- Se ha de realizar unicammente si esta la cookie del usuario
 
-/*    
-    if (filename == "./add_product.html" && cookie.user != "") {
+ 
+    if (filename == "./add_product.html" && cookie != null) {
       cookie_product = cookie.split('carritor=');
       console.log(cookie_product[1] + "AAAA");
       //cookie_product =cookie_user[1].split(';')[1];
       //console.log("aaaa" + cookie_product);
-    }else if (filename == "./add_product.html" && cookie.user == ""){
-      console.log("NOOOO");
+      const fichero = fs.readFileSync('add_product.html', 'utf-8');
+      data = fichero.replace("*DESCRIPCION*", "Producto añadido al carrito con exito");
+    }else if (filename == "./add_product.html" && cookie == null){
+      const fichero = fs.readFileSync('add_product.html', 'utf-8');
+      data = fichero.replace("*DESCRIPCION*", "No estas registrado, por tanto, no puedes añadir productos al carrito");
+      console.log("No puedes añadir nada al carrito, ya que no estas registrado");
     }
-*/
+
 
     if (err) {
         console.log('Error')
