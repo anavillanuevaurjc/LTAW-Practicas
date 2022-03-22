@@ -1,3 +1,6 @@
+//Puedo crear 3 páginas y en función del producto clickclado me lleva a una página con el disco diciendo que ha sido añadido con exito
+//en este punto es donde se añade la cookie
+
 //-- Modulos -->
 const http = require('http');
 const fs = require('fs');
@@ -19,9 +22,6 @@ const productos = tienda[0].productos;
 const usuarios = tienda[1].usuarios;
 const nu_usuarios = usuarios.length;
 const pedidos = tienda[2].pedidos;
-//console.log("Productos tienda: " +  productos.length);
-//console.log("Usuarios tienda: " +  usuarios.length);
-//console.log("Pedidos tienda: " + pedidos.length);
 
 
 //-- Servidor -->
@@ -54,17 +54,8 @@ const server = http.createServer((req, res) => {
     }else{
       content_type = "text/" + content;
     }
-    //Funciona correctamente
-    //console.log(productos[0]["nombre"]);
-    //productos[0]["nombre"] = "AMAIA"
-    //console.log(productos[0]["nombre"]);
-    //-- Convertir la variable a cadena JSON
-    //let myJSON = JSON.stringify(tienda);  
-    //-- Guardarla en el fichero destino
-    //fs.writeFileSync(fichero_JSON, myJSON);   
 
-  }else if (myURL.pathname == "/procesar") {  //LOGIN                  //-- FichRespuesta
-    
+  }else if (myURL.pathname == "/procesar") {  //LOGIN                  
     content_type = "text/html";
     Usuario = myURL.searchParams.get('accesoUsuario');
     contadorA = 0;
@@ -89,18 +80,28 @@ const server = http.createServer((req, res) => {
       //-- Nombre
     cookie_user = cookie.split('-');
     cookie_user =cookie_user[1].split(';')[0];
-    console.log("COOKIEUSER " +  cookie_user);
+    
       //-- Carrito
     cookie_product =cookie[1].split(';')[1];
     cookie_product = cookie.split('carritor=')[1];
-    console.log("COOKIEPRODUCT " + cookie_product);
+    
     //-- Tomar de los valores introducidos 
-    //-- COMO PUEDO INTRODUCIR ESTOS DATOS AL JSON
     let direccion = myURL.searchParams.get('direccion');
-    console.log(direccion);
     let tarjeta = myURL.searchParams.get('tarjeta');
-    console.log(tarjeta);
+    
+    //-- Adición
+    var nuevo_ped = {};
+    nuevo_ped = { "nickname": "", "direccion": "","tarjeta" : "", "producto" : ""};
+    pedidos.push(nuevo_ped);
+    pedidos[pedidos.length - 1]["nickname"] = cookie_user;
+    pedidos[pedidos.length - 1]["direccion"] = direccion;
+    pedidos[pedidos.length - 1]["tarjeta"] = tarjeta;
+    pedidos[pedidos.length - 1]["producto"] = cookie_product;
 
+    //-- Convertir la variable a cadena JSON
+    let myJSON = JSON.stringify(tienda);  
+    //-- Guardarla en el fichero destino
+    fs.writeFileSync(fichero_JSON, myJSON); 
     
     
   }else if (myURL.pathname == "/acceso") {    //REGISTRO -> No es necesario
@@ -135,18 +136,18 @@ const server = http.createServer((req, res) => {
 
     //-- Obtención de los elementos de la base de datos
 
-    if (filename == "./p1.html"){
+    if (filename == "./p1.html" || filename == "./p1cookie.html"){
       product_Name = productos[0]["nombre"];
       product_Description = productos[0]["descripcion"];
       product_Price = productos[0]["precio"];
       product_Stock = productos[0]["stock"];
       
-    }else if(filename == "./p2.html"){
+    }else if(filename == "./p2.html" || filename == "./p2cookie.html"){
       product_Name = productos[1]["nombre"];
       product_Description = productos[1]["descripcion"];
       product_Price = productos[1]["precio"];
       product_Stock = productos[1]["stock"];
-    }else if(filename == "./p3.html"){
+    }else if(filename == "./p3.html" || filename == "./p3cookie.html"){
       product_Name = productos[2]["nombre"];
       product_Description = productos[2]["descripcion"];
       product_Price = productos[2]["precio"];
@@ -182,12 +183,12 @@ const server = http.createServer((req, res) => {
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);
-      
+      /*
       //-- Si la cookie no esta vacía -> Se añade cookie del carrito
       if (cookie != null) {
         res.setHeader('Set-Cookie', "carritor=" + product_Name);
       }
-      
+      */
       
     }
 
@@ -230,8 +231,29 @@ const server = http.createServer((req, res) => {
     
     //-- Añadir cookie producto escogido -- Se ha de realizar unicammente si esta la cookie del usuario
 
- 
+    if (filename == "./p1cookie.html") {
+      //-- Si la cookie no esta vacía -> Se añade cookie del carrito
+      if (cookie != null) {
+        res.setHeader('Set-Cookie', "carritor=" + product_Name);
+      }
+    }
+
+    if (filename == "./p2cookie.html") {
+      //-- Si la cookie no esta vacía -> Se añade cookie del carrito
+      if (cookie != null) {
+        res.setHeader('Set-Cookie', "carritor=" + product_Name);
+      }
+    }
+
+    if (filename == "./p3cookie.html") {
+      //-- Si la cookie no esta vacía -> Se añade cookie del carrito
+      if (cookie != null) {
+        res.setHeader('Set-Cookie', "carritor=" + product_Name);
+      }
+    }
+ /*
     if (filename == "./add_product.html" && cookie != null) {
+      console.log(product_Name + "NO SE MANTIENE")
       cookie_product =cookie[1].split(';')[1];
       cookie_product = cookie.split('carritor=')[1];
       const fichero = fs.readFileSync('add_product.html', 'utf-8');
@@ -241,7 +263,7 @@ const server = http.createServer((req, res) => {
       const fichero = fs.readFileSync('add_product.html', 'utf-8');
       data = fichero.replace("*DESCRIPCION*", "No estas registrado, por tanto, no puedes añadir productos al carrito");
     }
-
+*/
 
     if (err) {
         console.log('Error')
