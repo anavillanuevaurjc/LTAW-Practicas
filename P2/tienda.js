@@ -85,6 +85,15 @@ const server = http.createServer((req, res) => {
   }else if (myURL.pathname == "/carrito") {   //CARRITO
     filename = "respuesta_carrito.html";                //-- FichRespuesta
     content_type = "text/html";
+    //-- Tomar de las cookies 
+      //-- Nombre
+      cookie_user = cookie.split('-');
+      cookie_user =cookie_user[1].split(';')[0];
+      console.log("COOKIEUSER " +  cookie_user);
+      //-- Carrito
+      cookie_product =cookie[1].split(';')[1];
+      cookie_product = cookie.split('carritor=')[1];
+      console.log("COOKIEPRODUCT " + cookie_product);
     
   }else if (myURL.pathname == "/acceso") {    //REGISTRO -> No es necesario
     filename = "index.html";                             //-- FichRespuesta
@@ -137,8 +146,6 @@ const server = http.createServer((req, res) => {
     }else{
       product_Description = "";
     }
-
-    //-- Inyección de producto en carrtio
 
   }
   //--LECTURA ASINCRONA -->
