@@ -182,14 +182,7 @@ const server = http.createServer((req, res) => {
       data = fichero.replace("*DESCRIPCION*", product_Name);
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
-      data = data.replace("*STOCK*", product_Stock);
-      /*
-      //-- Si la cookie no esta vacía -> Se añade cookie del carrito
-      if (cookie != null) {
-        res.setHeader('Set-Cookie', "carritor=" + product_Name);
-      }
-      */
-      
+      data = data.replace("*STOCK*", product_Stock);   
     }
 
     if (filename == "./p2.html"){
@@ -199,10 +192,6 @@ const server = http.createServer((req, res) => {
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);
-      //-- Si la cookie no esta vacía -> Se añade cookie del carrito
-      if (cookie != null) {
-        res.setHeader('Set-Cookie', "carritor=" + product_Name);
-      }
     }
 
     if (filename == "./p3.html"){
@@ -212,10 +201,6 @@ const server = http.createServer((req, res) => {
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);
-      //-- Si la cookie no esta vacía -> Se añade cookie del carrito
-      if (cookie != null) {
-        res.setHeader('Set-Cookie', "carritor=" + product_Name);
-      }
     }
 
     //-- Login 
@@ -235,6 +220,11 @@ const server = http.createServer((req, res) => {
       //-- Si la cookie no esta vacía -> Se añade cookie del carrito
       if (cookie != null) {
         res.setHeader('Set-Cookie', "carritor=" + product_Name);
+        const fichero = fs.readFileSync('p1cookie.html', 'utf-8');
+        data = fichero.replace("*DESCRIPCION*", "Producto añadido a la cesta");
+      }else{
+        const fichero = fs.readFileSync('p1cookie.html', 'utf-8');
+        data = fichero.replace("*DESCRIPCION*", "No puedes añadir el producto a la cesta sin estar registrado");
       }
     }
 
@@ -242,6 +232,11 @@ const server = http.createServer((req, res) => {
       //-- Si la cookie no esta vacía -> Se añade cookie del carrito
       if (cookie != null) {
         res.setHeader('Set-Cookie', "carritor=" + product_Name);
+        const fichero = fs.readFileSync('p2cookie.html', 'utf-8');
+        data = fichero.replace("*DESCRIPCION*", "Producto añadido a la cesta");
+      }else{
+        const fichero = fs.readFileSync('p2cookie.html', 'utf-8');
+        data = fichero.replace("*DESCRIPCION*", "No puedes añadir el producto a la cesta sin estar registrado");
       }
     }
 
@@ -249,6 +244,11 @@ const server = http.createServer((req, res) => {
       //-- Si la cookie no esta vacía -> Se añade cookie del carrito
       if (cookie != null) {
         res.setHeader('Set-Cookie', "carritor=" + product_Name);
+        const fichero = fs.readFileSync('p3cookie.html', 'utf-8');
+        data = fichero.replace("*DESCRIPCION*", "Producto añadido a la cesta");
+      }else{
+        const fichero = fs.readFileSync('p3cookie.html', 'utf-8');
+        data = fichero.replace("*DESCRIPCION*", "No puedes añadir el producto a la cesta sin estar registrado");
       }
     }
  /*
