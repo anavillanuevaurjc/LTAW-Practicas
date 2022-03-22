@@ -40,6 +40,7 @@ const server = http.createServer((req, res) => {
   //-- Cookies
   const cookie = req.headers.cookie;
   let cookie_product = "";
+  let cookie_user = "";
   
   if (myURL.pathname == "/"){
     filename = "index.html"
@@ -166,7 +167,13 @@ const server = http.createServer((req, res) => {
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);
-      res.setHeader('Set-Cookie', "carritor=" + product_Name);
+      
+      //-- Si la cookie no esta vacía -> Se añade cookie del carrito
+      if (cookie != null) {
+        res.setHeader('Set-Cookie', "carritor=" + product_Name);
+      }
+      
+      
     }
 
     if (filename == "./p2.html"){
@@ -176,7 +183,12 @@ const server = http.createServer((req, res) => {
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);
-      res.setHeader('Set-Cookie', "carritor=" + product_Name);
+      /*
+      if (cookie.user != "") {
+        res.setHeader('Set-Cookie', "carritor=" + product_Name);
+      }
+      */
+      //res.setHeader('Set-Cookie', "carritor=" + product_Name);
     }
 
     if (filename == "./p3.html"){
@@ -186,10 +198,16 @@ const server = http.createServer((req, res) => {
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);
-      res.setHeader('Set-Cookie', "carritor=" + product_Name);
+      /*
+      if (cookie.user != "") {
+        res.setHeader('Set-Cookie', "carritor=" + product_Name);
+      }
+      */
+      //res.setHeader('Set-Cookie', "carritor=" + product_Name);
     }
 
     //-- Login 
+    
     if (filename == "./login-user.html" && cookie != undefined){
       cookie_user = cookie.split('-');
       cookie_user =cookie_user[1].split(';')[0];
@@ -198,15 +216,19 @@ const server = http.createServer((req, res) => {
     }else if (filename == "./login-user.html" && cookie == undefined){
       data = fs.readFileSync('login-user.html', 'utf-8');
     }
-    //-- Añadir cookie producto escogido 
     
-    if (filename == "./add_product.html") {
+    //-- Añadir cookie producto escogido -- Se ha de realizar unicammente si esta la cookie del usuario
+
+/*    
+    if (filename == "./add_product.html" && cookie.user != "") {
       cookie_product = cookie.split('carritor=');
       console.log(cookie_product[1] + "AAAA");
       //cookie_product =cookie_user[1].split(';')[1];
       //console.log("aaaa" + cookie_product);
+    }else if (filename == "./add_product.html" && cookie.user == ""){
+      console.log("NOOOO");
     }
-    
+*/
 
     if (err) {
         console.log('Error')
