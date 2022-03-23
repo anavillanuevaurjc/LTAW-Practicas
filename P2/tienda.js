@@ -43,6 +43,7 @@ const server = http.createServer((req, res) => {
   let cookie_product = "";
   let cookie_user = "";
   
+  
   if (myURL.pathname == "/"){
     filename = "index.html"
     content = (myURL.pathname).split(["."])[1]
@@ -169,8 +170,50 @@ const server = http.createServer((req, res) => {
       product_Description = productos[2]["descripcion"];
       product_Price = productos[2]["precio"];
       product_Stock = productos[2]["stock"];
-    }else{
-      product_Description = "";
+    }else if (filename == "./form-shop.html"){
+      if (cookie == undefined){
+        Usuario = "";
+        product_Name = "";
+        contadorA = 0;
+      }else{
+        //-- Tomar de las cookies 
+          //-- Nombre
+        cookie_user = cookie.split('-');
+        cookie_user =cookie_user[1].split(';')[0];
+          
+            //-- Carrito
+        cookie_product =cookie[1].split(';')[1];
+        cookie_product = cookie.split('carritor=')[1];
+        
+        if (cookie_product == undefined){
+          contadorA = 0;
+          Usuario = "";
+          product_Name = "";
+        }else{
+          contadorA = 1;
+          Usuario = cookie_user;
+          product_Name = cookie_product;
+        }
+        /*
+        if (cookie_user != undefined && cookie_product != undefined){
+          //-- Tomar de las cookies 
+            //-- Nombre
+          cookie_user = cookie.split('-');
+          cookie_user =cookie_user[1].split(';')[0];
+          
+            //-- Carrito
+          cookie_product =cookie[1].split(';')[1];
+          cookie_product = cookie.split('carritor=')[1];
+
+          console.log(cookie_user + " AAAAAAAA " + cookie_product);
+          Usuario = cookie_user;
+          product_Name = cookie_product;
+        }else{
+          Usuario = "";
+          product_Name = "";
+        }
+        */
+      }
     }
 
   }
@@ -279,8 +322,18 @@ const server = http.createServer((req, res) => {
         data = fichero.replace("*DESCRIPCION*", "No puedes añadir el producto a la cesta sin estar registrado");
       }
     }
-    
-    console.log(filename + " " + contadorC);
+    //-- Proceso de compra
+    if (filename == "./form-shop.html"){
+      if (contadorA == 1){
+        const fichero = fs.readFileSync('form-shop.html', 'utf-8');
+        data = fichero.replace("*USUARIO*", Usuario);
+        data = data.replace("*PRODUCTOS*", product_Name);
+      }else{
+        const fichero = fs.readFileSync('form-shop.html', 'utf-8');
+        data = fichero.replace("*USUARIO*", Usuario);
+        data = data.replace("*PRODUCTOS*", product_Name);
+      }
+    }
     //-- Respuesta al realizar la compra
     if (filename == "respuesta_carrito.html" && contadorC == 1){
       console.log("SAT");
