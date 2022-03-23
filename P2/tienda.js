@@ -37,6 +37,7 @@ const server = http.createServer((req, res) => {
   let product_Stock = "";
   //--Contador login
   let contadorA = 0;
+  let contadorC = 0;
   //-- Cookies
   const cookie = req.headers.cookie;
   let cookie_product = "";
@@ -74,43 +75,52 @@ const server = http.createServer((req, res) => {
     
     
   }else if (myURL.pathname == "/carrito") {   //CARRITO
-    contadorC = 0;
-    filename = "respuesta_carrito.html";                //-- FichRespuesta
     content_type = "text/html";
-    //-- Tomar de las cookies 
-      //-- Nombre
-    cookie_user = cookie.split('-');
-    cookie_user =cookie_user[1].split(';')[0];
-    
-      //-- Carrito
-    cookie_product =cookie[1].split(';')[1];
-    cookie_product = cookie.split('carritor=')[1];
-    
-    //-- Tomar de los valores introducidos 
-    let direccion = myURL.searchParams.get('direccion');
-    let tarjeta = myURL.searchParams.get('tarjeta');
-    
-    //-- No funciona
-    if (direccion == "" || tarjeta == "" || cookie_user == "" || cookie_product == ""){
-      console.log("NOOOOOOOOOOO");
-    }else{
-      console.log("SIIIIIIIIIII");
-      //-- Adición
-      var nuevo_ped = {};
-      nuevo_ped = { "nickname": "", "direccion": "","tarjeta" : "", "producto" : ""};
-      pedidos.push(nuevo_ped);
-      pedidos[pedidos.length - 1]["nickname"] = cookie_user;
-      pedidos[pedidos.length - 1]["direccion"] = direccion;
-      pedidos[pedidos.length - 1]["tarjeta"] = tarjeta;
-      pedidos[pedidos.length - 1]["producto"] = cookie_product;
-      //-- Convertir la variable a cadena JSON
-      let myJSON = JSON.stringify(tienda);  
-      //-- Guardarla en el fichero destino
-      fs.writeFileSync(fichero_JSON, myJSON); 
-      //-- Compra satisfactoria
-      contadorC =+ 1;
-    }
+    if (cookie != undefined){
+      if (cookie_user != undefined && cookie_product != undefined){
+        //-- Tomar de las cookies 
+          //-- Nombre
+        cookie_user = cookie.split('-');
+        cookie_user =cookie_user[1].split(';')[0];
+        
+          //-- Carrito
+        cookie_product =cookie[1].split(';')[1];
+        cookie_product = cookie.split('carritor=')[1];
+        
+        //-- Tomar de los valores introducidos 
+        let direccion = myURL.searchParams.get('direccion');
+        let tarjeta = myURL.searchParams.get('tarjeta');
 
+        if (direccion == "" || tarjeta == "" || cookie_user == "" || cookie_product == ""){
+          filename = "respuesta_carrito.html";                //-- FichRespuesta
+          contadorC = 0;
+        }else{
+          filename = "respuesta_carrito.html";                //-- FichRespuesta
+          //-- Adición
+          var nuevo_ped = {};
+          nuevo_ped = { "nickname": "", "direccion": "","tarjeta" : "", "producto" : ""};
+          pedidos.push(nuevo_ped);
+          pedidos[pedidos.length - 1]["nickname"] = cookie_user;
+          pedidos[pedidos.length - 1]["direccion"] = direccion;
+          pedidos[pedidos.length - 1]["tarjeta"] = tarjeta;
+          pedidos[pedidos.length - 1]["producto"] = cookie_product;
+          //-- Convertir la variable a cadena JSON
+          let myJSON = JSON.stringify(tienda);  
+          //-- Guardarla en el fichero destino
+          fs.writeFileSync(fichero_JSON, myJSON); 
+          //-- Compra satisfactoria
+          contadorC =+ 1;
+        }
+
+      }else{
+        filename = "respuesta_carrito.html";
+        console.log(cookie_user + " " + cookie_product + " bbbbbbb");
+      }
+    }else{
+        filename = "respuesta_carrito.html";
+        console.log(cookie_user + " " + cookie_product + "ccccccc");
+    }
+    
   }else if (myURL.pathname == "/acceso") {    //REGISTRO -> No es necesario
     filename = "index.html";                             //-- FichRespuesta
     content_type = "text/html";
@@ -166,7 +176,7 @@ const server = http.createServer((req, res) => {
   }
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
-    
+    console.log(filename + "2303");
     //Página principal
 
     if (filename == "index.html" || filename== "./index.html" ){
@@ -269,17 +279,21 @@ const server = http.createServer((req, res) => {
         data = fichero.replace("*DESCRIPCION*", "No puedes añadir el producto a la cesta sin estar registrado");
       }
     }
-
+    
+    console.log(filename + " " + contadorC);
     //-- Respuesta al realizar la compra
-    if (filename == "./respuesta_carrito.html" && contadorC == 1){
+    if (filename == "respuesta_carrito.html" && contadorC == 1){
+      console.log("SAT");
       //Satisfactorio
       const fichero = fs.readFileSync('respuesta_carrito.html', 'utf-8');
       data = fichero.replace("*DESCRIPCION*", "Compra finalizada");
-    }else if (filename == "./respuesta_carrito" && contadorC == 0){
+    }else if (filename == "respuesta_carrito.html" && contadorC == 0){
       //No satisfactorio
+      console.log("NOSAT");
       const fichero = fs.readFileSync('respuesta_carrito.html', 'utf-8');
       data = fichero.replace("*DESCRIPCION*", "No se ha podido realizar la compra. Revise los parametros introducidos");
     }
+    
     //Errores
 
     if (err) {
