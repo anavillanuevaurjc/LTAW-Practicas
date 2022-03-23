@@ -130,14 +130,25 @@ const server = http.createServer((req, res) => {
     let nombre_usuario = myURL.searchParams.get('nombre_usuario');
     let correo_electronico = myURL.searchParams.get('correo_electronico');
 
-    //-- Modificacion JSON -> No es encesario
-    //-- En la posicion [0] esta el 1er cliente
-    //-- En la posicion [1] esta el 2º cliente 
-    //-- ¿Como puedo introducir las variables del nuevo cliente?
-    //-- Convertir la variable a cadena JSON
-    //let myJSON = JSON.stringify(tienda);  
-    //-- Guardarla en el fichero destino
-    //fs.writeFileSync(fichero_JSON, myJSON);   
+    if (nombre == "" || nombre_usuario == "" || correo_electronico == ""){
+      console.log("NO POSIBLE REALIRRRRRRRRRRRRRZAR");
+    }else{
+      console.log("NO POSIBLE REALIRRRRRRRRRRRRRZAREEEE");
+      //-- Adición
+      var nuevo_us = {};
+      nuevo_us = { "nickname": "", "tipo": "","nombre" : "", "email" : ""};
+      usuarios.push(nuevo_us);
+      usuarios[usuarios.length - 1]["nickname"] = nombre_usuario;
+      usuarios[usuarios.length - 1]["tipo"] = "común";
+      usuarios[usuarios.length - 1]["nombre"] = nombre;
+      usuarios[usuarios.length - 1]["email"] = correo_electronico;
+      //-- Convertir la variable a cadena JSON
+      let myJSON = JSON.stringify(tienda);  
+      //-- Guardarla en el fichero destino
+      fs.writeFileSync(fichero_JSON, myJSON);
+    }
+
+       
     
   }else{
     content = (myURL.pathname).split(["."])[1]
@@ -194,25 +205,6 @@ const server = http.createServer((req, res) => {
           Usuario = cookie_user;
           product_Name = cookie_product;
         }
-        /*
-        if (cookie_user != undefined && cookie_product != undefined){
-          //-- Tomar de las cookies 
-            //-- Nombre
-          cookie_user = cookie.split('-');
-          cookie_user =cookie_user[1].split(';')[0];
-          
-            //-- Carrito
-          cookie_product =cookie[1].split(';')[1];
-          cookie_product = cookie.split('carritor=')[1];
-
-          console.log(cookie_user + " AAAAAAAA " + cookie_product);
-          Usuario = cookie_user;
-          product_Name = cookie_product;
-        }else{
-          Usuario = "";
-          product_Name = "";
-        }
-        */
       }
     }
 
