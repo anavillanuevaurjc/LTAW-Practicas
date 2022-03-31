@@ -54,7 +54,7 @@ caja.oninput = () => {
     console.log(caja.value.length);
 
     //-- La peticion se realia solo si hay al menos 1 carácter
-    if (caja.value.length >= 1) {
+    if (caja.value.length >= 2) {
 
       //-- Configurar la petición
       m.open("GET","/productos?param1=" + caja.value, true);
@@ -66,6 +66,4 @@ caja.oninput = () => {
         display1.innerHTML="";
     }
 }
-
-
 

@@ -266,15 +266,32 @@ const server = http.createServer((req, res) => {
     }
 
     if (filename == "./busqueda"){
+      console.log(filename + "AAAAAAAAAAAAAAAAAAAAAAQUI");
       //console.log("BUSQUEDDDDDDDDA " + resultP);
       console.log("COMPROBAMOSSSS " + resultBusq[0])
       if (resultBusq[0] == "Amaia"){
+        resultBusq[resultBusq.length - 1] = "";
+        let myJSON = JSON.stringify(resultBusq); 
+        fs.writeFileSync('resultJson.json', myJSON);
+
         filename = "p1.html";
       }else if (resultBusq[0] == "Foster the people"){
+        resultBusq[resultBusq.length - 1] = "";
+        let myJSON = JSON.stringify(resultBusq); 
+        fs.writeFileSync('resultJson.json', myJSON);
+
         filename = "p2.html";
       }else if (resultBusq[0] == "Supersubmarina"){
+        resultBusq[resultBusq.length - 1] = "";
+        let myJSON = JSON.stringify(resultBusq); 
+        fs.writeFileSync('resultJson.json', myJSON);
+
         filename = "p3.html";
       }else{
+        resultBusq[resultBusq.length - 1] = "";
+        let myJSON = JSON.stringify(resultBusq); 
+        fs.writeFileSync('resultJson.json', myJSON);
+        
         filename = "index.html";
       }
     }
@@ -353,10 +370,10 @@ const server = http.createServer((req, res) => {
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);  
-
+/*
       resultBusq[resultBusq.length - 1] = "";
       let myJSON = JSON.stringify(resultBusq); 
-      fs.writeFileSync('resultJson.json', myJSON);
+      fs.writeFileSync('resultJson.json', myJSON);*/
     }
 
     if (filename == "./p2.html" || filename == "p2.html"){
@@ -366,10 +383,11 @@ const server = http.createServer((req, res) => {
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);
-
+/*
       resultBusq[resultBusq.length - 1] = "";
       let myJSON = JSON.stringify(resultBusq); 
       fs.writeFileSync('resultJson.json', myJSON);
+      */
 
     }
 
@@ -380,10 +398,10 @@ const server = http.createServer((req, res) => {
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);
-
+/*
       resultBusq[resultBusq.length - 1] = "";
       let myJSON = JSON.stringify(resultBusq); 
-      fs.writeFileSync('resultJson.json', myJSON);
+      fs.writeFileSync('resultJson.json', myJSON);*/
     }
 
     //-- Login 
