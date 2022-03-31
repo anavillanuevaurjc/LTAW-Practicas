@@ -10,15 +10,30 @@ const MAIN = fs.readFileSync('Ej-01.html','utf-8');
 //-- Leer fichero JSON con los productos
 const PRODUCTOS_JSON = fs.readFileSync('Ej-01.json');
 
-let productos = JSON.parse(PRODUCTOS_JSON);
+let tienda = JSON.parse(PRODUCTOS_JSON);
+
+const pArray = [];
+const productos = tienda[0].productos;
+
+productos.forEach((element, index)=>{
+  pArray.push(productos[index]["nombre"]);
+});
+//-- Convertir la variable a cadena JSON
+let myJSON = JSON.stringify(pArray);  
+
+//-- Guardarla en el fichero destino
+fs.writeFileSync('ficheroJSON2.json', myJSON); 
+
+let result = [];
+let param1 = "";
+console.log(pArray);
 
 //-- SERVIDOR: Bucle principal de atención a clientes
 const server = http.createServer((req, res) => {
 
     //-- Construir el objeto url con la url de la solicitud
     const myURL = new URL(req.url, 'http://' + req.headers['host']);  
-  
-    console.log(myURL.pathname);
+
     //-- Por defecto entregar página web principal
     if (myURL.pathname == "/"){
         filename = "Ej-05.html";
@@ -37,7 +52,8 @@ const server = http.createServer((req, res) => {
   
     if (myURL.pathname == '/productos') {
         content_type = "application/json";
-        filename = 'Ej-01.json';
+        filename = 'ficheroJSON2.json';
+        //filename = pArray;
         
     }
 
@@ -47,7 +63,7 @@ const server = http.createServer((req, res) => {
   }
   
     fs.readFile(filename, (err, data) => {
-      
+      console.log(filename + "HABER");
       if (filename == '/productos'){
         let param1 = myURL.searchParams.get('param1');
 
@@ -57,8 +73,8 @@ const server = http.createServer((req, res) => {
 
         let result = [];
 
-        for (let prod of productos) {
-
+        for (let prod of pArray) {
+          console.log(pArray + "AAAAAAAA");
           //-- Pasar a mayúsculas
           prodU = prod.toUpperCase();
 
@@ -69,11 +85,9 @@ const server = http.createServer((req, res) => {
           }
           
       }
-      console.log(result + "REEEEEEESIL");
-      data = JSON.stringify(result);
+      console.log(result + "REEEEEE");
+      content = JSON.stringify(result);
       }
-
-      console.log(filename + "aaaaaaaaaaa");
         if (err) {
             console.log('Error')
             let code = 404;
