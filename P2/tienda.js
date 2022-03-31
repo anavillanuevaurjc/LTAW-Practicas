@@ -233,6 +233,7 @@ const server = http.createServer((req, res) => {
     }
     //Cliente.js
     if (filename == './productos') {
+      filename = 'arrayPJson.json'; 
       content_type = "application/json";
       let param1 = myURL.searchParams.get('param1');
 
@@ -252,12 +253,17 @@ const server = http.createServer((req, res) => {
         if (prodU.startsWith(param1)) {
             result.push(prod);
         }
-        
-    }
-      let myJSON = JSON.stringify(result); 
+      }
+      //filename = 'arrayPJson.json'; 
+      var nuevo_result = "";
+      resultBusq.push(nuevo_result);
+      resultBusq[resultBusq.length - 1] = result;
+      let myJSON = JSON.stringify(resultBusq); 
       fs.writeFileSync('resultJson.json', myJSON);
-      console.log("COMPROBAMOSSSS " + resultBusq[0])
-      filename = 'arrayPJson.json';    
+      console.log(result);
+      console.log("COMPROBAMOSSSS " + resultBusq[resultBusq.length - 1])
+      
+         
     }
     
     if (myURL.pathname == '/cliente.js') {
@@ -266,22 +272,20 @@ const server = http.createServer((req, res) => {
     }
 
     if (filename == "./busqueda"){
-      console.log(filename + "AAAAAAAAAAAAAAAAAAAAAAQUI");
-      //console.log("BUSQUEDDDDDDDDA " + resultP);
       console.log("COMPROBAMOSSSS " + resultBusq[0])
-      if (resultBusq[0] == "Amaia"){
+      if (resultBusq[resultBusq.length - 1] == "Amaia"){
         resultBusq[resultBusq.length - 1] = "";
         let myJSON = JSON.stringify(resultBusq); 
         fs.writeFileSync('resultJson.json', myJSON);
 
         filename = "p1.html";
-      }else if (resultBusq[0] == "Foster the people"){
+      }else if (resultBusq[resultBusq.length - 1] == "Foster the people"){
         resultBusq[resultBusq.length - 1] = "";
         let myJSON = JSON.stringify(resultBusq); 
         fs.writeFileSync('resultJson.json', myJSON);
 
         filename = "p2.html";
-      }else if (resultBusq[0] == "Supersubmarina"){
+      }else if (resultBusq[resultBusq.length - 1] == "Supersubmarina"){
         resultBusq[resultBusq.length - 1] = "";
         let myJSON = JSON.stringify(resultBusq); 
         fs.writeFileSync('resultJson.json', myJSON);
@@ -291,7 +295,7 @@ const server = http.createServer((req, res) => {
         resultBusq[resultBusq.length - 1] = "";
         let myJSON = JSON.stringify(resultBusq); 
         fs.writeFileSync('resultJson.json', myJSON);
-        
+
         filename = "index.html";
       }
     }
@@ -334,11 +338,11 @@ const server = http.createServer((req, res) => {
     //Página principal
 
     if (filename == "index.html" || filename== "./index.html" ){
-      /*
+      
       resultBusq[resultBusq.length - 1] = "";
       let myJSON = JSON.stringify(resultBusq); 
       fs.writeFileSync('resultJson.json', myJSON);
-*/
+
       //-- No sesión inicializada
       if (contadorA  == 0) {
         if (cookie == undefined){
