@@ -47,6 +47,9 @@ const server = http.createServer((req, res) => {
   if (myURL.pathname == "/"){
     filename = "index.html"
     content = (myURL.pathname).split(["."])[1]
+
+    console.log(content + "INDEX");
+
     if (content == "jpg" || content == "JPG") {
       content_type = "image/" + "jpeg";
     }else if (content == "png" || content == "PNG") {
@@ -207,11 +210,21 @@ const server = http.createServer((req, res) => {
         }
       }
     }
+        //Cliente.js
+        if (filename == './productos') {
+          //console.log("AAAAAAAA");
+            content_type = "application/json";
+            filename = fichero_JSON;
+            
+        }
+
 
   }
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
     console.log(filename + "2303");
+
+
     //Página principal
 
     if (filename == "index.html" || filename== "./index.html" ){
@@ -338,7 +351,7 @@ const server = http.createServer((req, res) => {
       const fichero = fs.readFileSync('respuesta_carrito.html', 'utf-8');
       data = fichero.replace("*DESCRIPCION*", "No se ha podido realizar la compra. Revise los parametros introducidos");
     }
-    
+
     //Errores
 
     if (err) {
