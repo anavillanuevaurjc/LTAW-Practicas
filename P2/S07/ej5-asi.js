@@ -19,7 +19,7 @@ const server = http.createServer((req, res) => {
     console.log(myURL.pathname);
     //-- Por defecto entregar página web principal
     if (myURL.pathname == "/"){
-        filename = "Ej-01.html";
+        filename = "Ej-02.html";
         content = (myURL.pathname).split(["."])[1]
         if (content == "jpg" || content == "JPG") {
           content_type = "image/" + "jpeg";
@@ -37,6 +37,11 @@ const server = http.createServer((req, res) => {
         content_type = "application/json";
         filename = 'Ej-01.json';
     }
+
+    if (myURL.pathname == '/cliente-1.js') {
+      content_type = "application/javascript";
+      filename = 'cliente-1.js';
+  }
   
     fs.readFile(filename, (err, data) => {
         if (err) {
