@@ -22,6 +22,17 @@ const productos = tienda[0].productos;
 const usuarios = tienda[1].usuarios;
 const nu_usuarios = usuarios.length;
 const pedidos = tienda[2].pedidos;
+//-- Array productos -> Nuevo JSON
+
+const pArray = [];
+productos.forEach((element, index)=>{
+  pArray.push(productos[index]["nombre"]);
+});
+let myJSON = JSON.stringify(pArray); 
+fs.writeFileSync('arrayPJson.json', myJSON); 
+let result = [];
+let param1 = "";
+
 
 
 //-- Servidor -->
@@ -42,6 +53,8 @@ const server = http.createServer((req, res) => {
   const cookie = req.headers.cookie;
   let cookie_product = "";
   let cookie_user = "";
+  //-- Busquedas
+  let param1 = "";
   
   
   if (myURL.pathname == "/"){
@@ -213,8 +226,31 @@ const server = http.createServer((req, res) => {
     //Cliente.js
     if (filename == './productos') {
       content_type = "application/json";
-      filename = fichero_JSON;       
+      let param1 = myURL.searchParams.get('param1');
+
+      param1 = param1.toUpperCase();
+
+      console.log("  Param: " +  param1);
+
+      let result = [];
+
+      for (let prod of pArray) {
+        console.log(pArray + "AAAAAAAA");
+        //-- Pasar a mayúsculas
+        prodU = prod.toUpperCase();
+
+        //-- Si el producto comienza por lo indicado en el parametro
+        //-- meter este producto en el array de resultados
+        if (prodU.startsWith(param1)) {
+            result.push(prod);
+        }
+        
     }
+    console.log(result + "REEEEEE");
+    content = JSON.stringify(result);
+      filename = 'arrayPJson.json';    
+    }
+    
     if (myURL.pathname == '/cliente.js') {
       content_type = "application/javascript";
       filename = 'cliente.js';
@@ -225,6 +261,34 @@ const server = http.createServer((req, res) => {
   fs.readFile(filename, (err, data) => {
     console.log(filename + "2303");
 
+    //Búsquedas
+    /*
+    if (filename == '/productos'){
+
+      let param1 = myURL.searchParams.get('param1');
+
+      param1 = param1.toUpperCase();
+
+      console.log("  Param: " +  param1);
+
+      let result = [];
+
+      for (let prod of pArray) {
+        console.log(pArray + "AAAAAAAA");
+        //-- Pasar a mayúsculas
+        prodU = prod.toUpperCase();
+
+        //-- Si el producto comienza por lo indicado en el parametro
+        //-- meter este producto en el array de resultados
+        if (prodU.startsWith(param1)) {
+            result.push(prod);
+        }
+        
+    }
+    console.log(result + "REEEEEE");
+    content = JSON.stringify(result);
+    }
+    */
 
     //Página principal
 
@@ -346,6 +410,8 @@ const server = http.createServer((req, res) => {
       //Satisfactorio
       const fichero = fs.readFileSync('respuesta_carrito.html', 'utf-8');
       data = fichero.replace("*DESCRIPCION*", "Compra finalizada");
+      //Se ha de reducir el stock
+      
     }else if (filename == "respuesta_carrito.html" && contadorC == 0){
       //No satisfactorio
       console.log("NOSAT");
