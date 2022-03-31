@@ -210,14 +210,15 @@ const server = http.createServer((req, res) => {
         }
       }
     }
-        //Cliente.js
-        if (filename == './productos') {
-          //console.log("AAAAAAAA");
-            content_type = "application/json";
-            filename = fichero_JSON;
-            
-        }
-
+    //Cliente.js
+    if (filename == './productos') {
+      content_type = "application/json";
+      filename = fichero_JSON;       
+    }
+    if (myURL.pathname == '/cliente.js') {
+      content_type = "application/javascript";
+      filename = 'cliente.js';
+    }
 
   }
   //--LECTURA ASINCRONA -->
