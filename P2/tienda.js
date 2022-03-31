@@ -23,7 +23,6 @@ const usuarios = tienda[1].usuarios;
 const nu_usuarios = usuarios.length;
 const pedidos = tienda[2].pedidos;
 //-- Array productos -> Nuevo JSON
-
 const pArray = [];
 productos.forEach((element, index)=>{
   pArray.push(productos[index]["nombre"]);
@@ -33,7 +32,14 @@ fs.writeFileSync('arrayPJson.json', myJSON);
 let result = [];
 let param1 = "";
 
-
+//-- Búsquedas
+//-- Nombre del fichero JSON a leer
+const fichero_JSON_Result = "resultJson.json";
+//-- Leer el fichero JSON
+const result_JSON = fs.readFileSync(fichero_JSON_Result);
+//-- Crear la estructura tienda a partir del contenido del fichero
+const resultBusq = JSON.parse(result_JSON);
+//const resultP = resultBusq[0];
 
 //-- Servidor -->
 console.log("Escuchando...");
@@ -55,6 +61,7 @@ const server = http.createServer((req, res) => {
   let cookie_user = "";
   //-- Busquedas
   let param1 = "";
+  //console.log("RESULTADOB " + resultP);
   
   
   if (myURL.pathname == "/"){
@@ -181,18 +188,19 @@ const server = http.createServer((req, res) => {
 
     //-- Obtención de los elementos de la base de datos
 
-    if (filename == "./p1.html" || filename == "./p1cookie.html"){
+    if (filename == "./p1.html" || filename == "./p1cookie.html" || filename == "p1.html"){
       product_Name = productos[0]["nombre"];
       product_Description = productos[0]["descripcion"];
       product_Price = productos[0]["precio"];
       product_Stock = productos[0]["stock"];
       
-    }else if(filename == "./p2.html" || filename == "./p2cookie.html"){
+      
+    }else if(filename == "./p2.html" || filename == "./p2cookie.html" || filename == "p2.html"){
       product_Name = productos[1]["nombre"];
       product_Description = productos[1]["descripcion"];
       product_Price = productos[1]["precio"];
       product_Stock = productos[1]["stock"];
-    }else if(filename == "./p3.html" || filename == "./p3cookie.html"){
+    }else if(filename == "./p3.html" || filename == "./p3cookie.html" || filename == "p2.html"){
       product_Name = productos[2]["nombre"];
       product_Description = productos[2]["descripcion"];
       product_Price = productos[2]["precio"];
@@ -246,8 +254,9 @@ const server = http.createServer((req, res) => {
         }
         
     }
-    console.log(result + "REEEEEE");
-    content = JSON.stringify(result);
+      let myJSON = JSON.stringify(result); 
+      fs.writeFileSync('resultJson.json', myJSON);
+      console.log("COMPROBAMOSSSS " + resultBusq[0])
       filename = 'arrayPJson.json';    
     }
     
@@ -256,23 +265,38 @@ const server = http.createServer((req, res) => {
       filename = 'cliente.js';
     }
 
+    if (filename == "./busqueda"){
+      //console.log("BUSQUEDDDDDDDDA " + resultP);
+      console.log("COMPROBAMOSSSS " + resultBusq[0])
+      if (resultBusq[0] == "Amaia"){
+        filename = "p1.html";
+      }else if (resultBusq[0] == "Foster the people"){
+        filename = "p2.html";
+      }else if (resultBusq[0] == "Supersubmarina"){
+        filename = "p3.html";
+      }else{
+        filename = "index.html";
+      }
+    }
+
+    
+    
+
   }
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
-    console.log(filename + "2303");
+    //console.log(filename + "2303aaaaaaaaaaaaaaaaa" );
+
+    
 
     //Búsquedas
-    /*
+/*    
     if (filename == '/productos'){
 
       let param1 = myURL.searchParams.get('param1');
-
       param1 = param1.toUpperCase();
-
       console.log("  Param: " +  param1);
-
-      let result = [];
-
+      result = [];
       for (let prod of pArray) {
         console.log(pArray + "AAAAAAAA");
         //-- Pasar a mayúsculas
@@ -283,16 +307,21 @@ const server = http.createServer((req, res) => {
         if (prodU.startsWith(param1)) {
             result.push(prod);
         }
-        
     }
+    
     console.log(result + "REEEEEE");
     content = JSON.stringify(result);
-    }
-    */
+    }*/
+    
 
     //Página principal
 
     if (filename == "index.html" || filename== "./index.html" ){
+      /*
+      resultBusq[resultBusq.length - 1] = "";
+      let myJSON = JSON.stringify(resultBusq); 
+      fs.writeFileSync('resultJson.json', myJSON);
+*/
       //-- No sesión inicializada
       if (contadorA  == 0) {
         if (cookie == undefined){
@@ -317,31 +346,44 @@ const server = http.createServer((req, res) => {
     
     //Páginas de los productos
     
-    if (filename == "./p1.html"){
+    if (filename == "./p1.html" || filename == "p1.html"){
       //console.log("Hay p1.html");
       const fichero = fs.readFileSync('p1.html', 'utf-8');
       data = fichero.replace("*DESCRIPCION*", product_Name);
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
-      data = data.replace("*STOCK*", product_Stock);   
+      data = data.replace("*STOCK*", product_Stock);  
+
+      resultBusq[resultBusq.length - 1] = "";
+      let myJSON = JSON.stringify(resultBusq); 
+      fs.writeFileSync('resultJson.json', myJSON);
     }
 
-    if (filename == "./p2.html"){
+    if (filename == "./p2.html" || filename == "p2.html"){
       //console.log("Hay p1.html");
       const fichero = fs.readFileSync('p2.html', 'utf-8');
       data = fichero.replace("*DESCRIPCION*", product_Name);
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);
+
+      resultBusq[resultBusq.length - 1] = "";
+      let myJSON = JSON.stringify(resultBusq); 
+      fs.writeFileSync('resultJson.json', myJSON);
+
     }
 
-    if (filename == "./p3.html"){
+    if (filename == "./p3.html" || filename == "p3.html"){
       //console.log("Hay p1.html");
       const fichero = fs.readFileSync('p3.html', 'utf-8');
       data = fichero.replace("*DESCRIPCION*", product_Name);
       data = data.replace("*GENERO*", product_Description);
       data = data.replace("*PRECIO*", product_Price);
       data = data.replace("*STOCK*", product_Stock);
+
+      resultBusq[resultBusq.length - 1] = "";
+      let myJSON = JSON.stringify(resultBusq); 
+      fs.writeFileSync('resultJson.json', myJSON);
     }
 
     //-- Login 

@@ -1,29 +1,25 @@
-const url = require('url');
+//-- Modulos -->
 const http = require('http');
 const fs = require('fs');
+const url = require('url');
+
+//-- Puerto -->
 const PUERTO = 9090;
 
-//-- Cargar pagina web del formulario
-const FORMULARIO = fs.readFileSync('login-user.html','utf-8');
+//-- Nombre del fichero JSON a leer
+const fichero_JSON = "tienda.json";
+//-- Leer el fichero JSON
+const tienda_JSON = fs.readFileSync(fichero_JSON);
+//-- Crear la estructura tienda a partir del contenido del fichero
+const tienda = JSON.parse(tienda_JSON);
 
-//-- HTML de la página de respuesta
-const RESPUESTA = fs.readFileSync('index.html', 'utf-8');
+//-- Servidor -->
+console.log("Escuchando...");
 
-//-- SERVIDOR: Bucle principal de atención a clientes
 const server = http.createServer((req, res) => {
-
-  //-- Construir el objeto url con la url de la solicitud
-  const myURL = new URL(req.url, 'http://' + req.headers['host']);  
-  console.log("");
-  console.log("Método: " + req.method);
-  console.log("Recurso: " + req.url);
-  console.log("  Ruta: " + myURL.pathname);
-  console.log("  Parametros: " + myURL.searchParams);
-
-  //-- Por defecto entregar formulario
-  let content_type = "text/html";
-  let content = FORMULARIO;
-  
+  console.log("Petición recibida!");
+  const myURL = new URL(req.url, 'http://' + req.headers['host']);
+  console.log("URL solicitada: " + myURL.pathname);
   if (myURL.pathname == "/"){
     filename = "index.html"
     content = (myURL.pathname).split(["."])[1]
@@ -36,29 +32,63 @@ const server = http.createServer((req, res) => {
     }else{
       content_type = "text/" + content;
     }
-
+  }else{
+    content = (myURL.pathname).split(["."])[1]
+    if (content == "jpg" || content == "JPG") {
+      content_type = "image/" + "jpeg";
+    }else if (content == "png" || content == "PNG") {
+      content_type = "image/" + "png";
+    }else if (content == "gif"){
+      content_type = "image/" + "gif";
+    }else if (content == undefined){
+        content_type = "application/json";
+    }else{
+      content_type = "text/" + content;
+    }
+    filename = "." + myURL.pathname;
   }
-  if (myURL.pathname == '/procesar') {
-      content_type = "text/html";
-      content = RESPUESTA;
 
-  }
+  console.log("URL busqueda correcta" + filename);
+  console.log("Tipo de contenido " + content_type);
 
-  //-- Si hay datos en el cuerpo, se imprimen
-  req.on('data', (cuerpo) => {
+  //--LECTURA ASINCRONA -->
+  fs.readFile(filename, (err, data) => {
 
+    if (filename == "./productos"){
+      data = tienda;
+      
+    }
 
-  });
+    if (err) {
+        console.log('Error')
+        let code = 404;
+        let code_msg = "Not Found";
+        data = fs.readFileSync('error.html','utf8');
+        content = (myURL.pathname).split(["."])[1]
+        if (content == "jpg" || content == "JPG") {
+          content_type = "image/" + "jpeg";
+        }else if (content == "png" || content == "PNG") {
+          content_type = "image/" + "png";
+        }else if (content == "gif"){
+          content_type = "image/" + "gif";
+        }else{
+          content_type = "text/" + content;
+        }
+        res.statusCode = code;
+        res.statusMessage = code_msg;
+        res.setHeader('Content-Type', content_type);
+        res.write(data);
+        return res.end();
+    }
 
-  //-- Esto solo se ejecuta cuando llega el final del mensaje de solicitud
-  req.on('end', ()=> {
-    //-- Generar respuesta
-    res.setHeader('Content-Type', content_type);
-    res.write(content);
-    res.end()
-  });
-
+    console.log(content_type)
+    let code = 200;
+    let code_msg = "OK";
+    res.statusCode = code;
+    res.statusMessage = code_msg;
+    res.write(data);  //Su ausencia da lugar a error 
+    res.end();      //Su ausencia da lugar a error 
+  });  
 });
 
 server.listen(PUERTO);
-console.log("Escuchando en puerto: " + PUERTO);
