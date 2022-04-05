@@ -15,6 +15,9 @@ const server = http.Server(app);
 //-- Crear el servidor de websockets, asociado al servidor http
 const io = socket(server);
 
+//-- Contador
+var counter = 0;
+
 // PUNTOS DE ENTRADA DE LA APLICACION WEB
 //-- Definir el punto de entrada principal de mi aplicación web
 app.get('/', (req, res) => {
@@ -36,17 +39,21 @@ app.use(express.static('public'));
 io.on('connect', (socket) => {
   
   console.log('** NUEVA CONEXIÓN **'.yellow);
-
+  counter = counter + 1;
   //-- Evento de desconexión
   socket.on('disconnect', function(){
     console.log('** CONEXIÓN TERMINADA **'.yellow);
+    counter = counter - 1;
   });  
 
   //-- Mensaje recibido: Reenviarlo a todos los clientes conectados
   socket.on("message", (msg)=> {
     console.log("Mensaje Recibido!: " + msg.blue);
-        //-- Reenviarlo a todos los clientes conectados
-        io.send(msg);
+    if (msg == "/list"){
+      socket.send("Número de participantes: " + counter);
+    }else{
+      io.send(msg); //-- Todos
+    }
   });
 
 });
