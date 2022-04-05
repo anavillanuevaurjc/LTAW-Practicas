@@ -18,6 +18,9 @@ const io = socket(server);
 //-- Contador
 var counter = 0;
 
+//--Nuevo user
+var new_user = false;
+
 // PUNTOS DE ENTRADA DE LA APLICACION WEB
 //-- Definir el punto de entrada principal de mi aplicación web
 app.get('/', (req, res) => {
@@ -37,14 +40,15 @@ app.use(express.static('public'));
 //------------------- GESTION SOCKETS IO
 //-- Evento: Nueva conexion recibida
 io.on('connect', (socket) => {
-  
+  new_user = true;
+  if (new_user == true){
+    io.send("Nuevo usuario se ha unido al chat");
+    socket.send("BIENVENIDO");
+    new_user = false;
+  }
   console.log('** NUEVA CONEXIÓN **'.yellow);
   counter = counter + 1;
-  let user = socket.id;
-  //Mensaje
-  socket.send("BIENVENIDO");
-  io.send("Nuevo usuario se ha unido al chat");
-  
+
   //-- Evento de desconexión
   socket.on('disconnect', function(){
     console.log('** CONEXIÓN TERMINADA **'.yellow);
