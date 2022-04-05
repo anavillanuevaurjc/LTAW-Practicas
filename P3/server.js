@@ -40,6 +40,11 @@ io.on('connect', (socket) => {
   
   console.log('** NUEVA CONEXIÓN **'.yellow);
   counter = counter + 1;
+  let user = socket.id;
+  //Mensaje
+  socket.send("BIENVENIDO");
+  io.send("Nuevo usuario se ha unido al chat");
+  
   //-- Evento de desconexión
   socket.on('disconnect', function(){
     console.log('** CONEXIÓN TERMINADA **'.yellow);
