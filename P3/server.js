@@ -49,16 +49,29 @@ io.on('connect', (socket) => {
   //-- Mensaje recibido: Reenviarlo a todos los clientes conectados
   socket.on("message", (msg)=> {
     console.log("Mensaje Recibido!: " + msg.blue);
-    if (msg == "/list"){
-      socket.send("Número de participantes: " + counter);
-    }else if (msg == "/hello"){
-      socket.send("Hello");
-    }else if (msg == "/help") {
-      let data = "Comandos: <br>" + "/help -> Provoca la muestra la lista de comandos existentes <br>/hello -> Provoca un saludo por parte del servidor <br>/list -> Provoca la visualización de la cantidad de participantes <br>/date -> Provoca la visualización de la fecha";
-      socket.send(data);
+    let split_msg = Array.from(msg);
+    if (split_msg[0] == "/"){
+      console.log("socket.send");
+
+      if (msg == "/list"){
+        socket.send("Número de participantes: " + counter);
+      }else if (msg == "/hello"){
+        socket.send("Hello");
+      }else if (msg == "/help") {
+        let data = "Comandos: <br><br>/help -> Provoca la muestra la lista de comandos existentes <br><br>/hello -> Provoca un saludo por parte del servidor <br><br>/list -> Provoca la visualización de la cantidad de participantes <br><br>/date -> Provoca la visualización de la fecha";
+        socket.send(data);
+      }else if (msg == "/date") { 
+        let date = new Date(Date.now());
+        let data = "Fecha: <br>" + date;
+        socket.send(data);
+      }else{
+        let data = "Comando incorrecto";
+        socket.send(data);
+      }
     }else{
       io.send(msg); //-- Todos
     }
+
   });
 
 });
