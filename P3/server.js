@@ -51,6 +51,8 @@ io.on('connect', (socket) => {
     console.log("Mensaje Recibido!: " + msg.blue);
     if (msg == "/list"){
       socket.send("Número de participantes: " + counter);
+    }else if (msg == "/hello"){
+      socket.send("Hello");
     }else{
       io.send(msg); //-- Todos
     }
