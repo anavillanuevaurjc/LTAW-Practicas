@@ -53,6 +53,9 @@ io.on('connect', (socket) => {
       socket.send("Número de participantes: " + counter);
     }else if (msg == "/hello"){
       socket.send("Hello");
+    }else if (msg == "/help") {
+      let data = "Comandos: <br>" + "/help -> Provoca la muestra la lista de comandos existentes <br>/hello -> Provoca un saludo por parte del servidor <br>/list -> Provoca la visualización de la cantidad de participantes <br>/date -> Provoca la visualización de la fecha";
+      socket.send(data);
     }else{
       io.send(msg); //-- Todos
     }
