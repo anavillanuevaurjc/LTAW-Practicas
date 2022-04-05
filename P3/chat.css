@@ -1,0 +1,17 @@
+body{
+    text-align: center;
+    background-color: gray;
+    color:white;
+}
+
+.MiniChat{
+    color: black;
+    background-image: url(flores.jpg);
+}
+
+.contenedor{
+    background-color: white;
+    
+    margin-left: 25%;
+    margin-right: 25%;
+}
