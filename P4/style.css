@@ -1,11 +1,10 @@
 body{
     text-align: center;
     background-color: gray;
-    color:white;
+    color:black;
 }
 
 .MiniChat{
-    color: black;
     font-size: 400%;
     background-image: url(flores.jpg);
 }
