@@ -9,7 +9,7 @@
   <title>MiniChat</title>
   <script src="/socket.io/socket.io.js"></script>
   
-  <script src="index.js" defer></script>
+  <script src="index3.js" defer></script>
   
   <meta http-equiv="Content-Security-Policy" content="default-src 'self';" />
   
@@ -22,9 +22,11 @@
       <h3>MINI CHAT</h3>
     </div>
   </span>
-  <p>Versión de Node: <span id="info1" class="blue"></span> </p>
-  <p>Versión de Chrome: <span id="info2" class="blue"></span></p>
-  <p>Directorio de Electron: <span id="info3" class="blue"></span></p>
+  
+  <p id="info1" >Node Version:</p>
+  <p id="info2" >Chrome Version:</p>
+  <p id="info3" >Electron Version:</p>
+  
   <div>
     <hr>
     <p id="display" class="contenedor"></p>
@@ -39,6 +41,9 @@
     <p></p>
     <button id="btn_test">Enviar mensaje de prueba</button>
   </div>
+
+  <h2>QR Code</h2>
+  <img src=" " id="qr">
 
 </body>
 </html>
