@@ -32,8 +32,3 @@ electron.ipcRenderer.on('print', (event, message) => {
     print.textContent = message;
   });
 
-/*
-info1.textContent = process.versions.node;
-info2.textContent = process.versions.chrome;
-info3.textContent = process.versions.electron;
-*/
