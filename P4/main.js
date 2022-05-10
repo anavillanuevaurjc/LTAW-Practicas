@@ -84,21 +84,23 @@ io.on('connect', (socket) => {
     console.log("Mensaje Recibido!: " + msg.blue);
     let split_msg = Array.from(msg);
     if (split_msg[0] == "/"){
+      let data;
       console.log("socket.send");
-
       if (msg == "/list"){
-        socket.send("Número de participantes: " + counter);
+        data = "Número de participantes: " + counter;
+        socket.send(data);
       }else if (msg == "/hello"){
-        socket.send("Hello");
+        data = "Hello";
+        socket.send(data);
       }else if (msg == "/help") {
-        let data = "Comandos: <br><br>/help -> Provoca la muestra la lista de comandos existentes <br><br>/hello -> Provoca un saludo por parte del servidor <br><br>/list -> Provoca la visualización de la cantidad de participantes <br><br>/date -> Provoca la visualización de la fecha";
+        data = "Comandos: <br><br>/help -> Provoca la muestra la lista de comandos existentes <br><br>/hello -> Provoca un saludo por parte del servidor <br><br>/list -> Provoca la visualización de la cantidad de participantes <br><br>/date -> Provoca la visualización de la fecha";
         socket.send(data);
       }else if (msg == "/date") { 
         let date = new Date(Date.now());
         let data = "Fecha: <br>" + date;
         socket.send(data);
       }else{
-        let data = "Comando incorrecto";
+        data = "Comando incorrecto";
         socket.send(data);
       }
     }else{
