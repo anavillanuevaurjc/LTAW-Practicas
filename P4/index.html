@@ -1,49 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/estilos.css">
-  <link rel="shortcut icon" href="css/favicon.png">
-  <title>MiniChat</title>
-  <script src="/socket.io/socket.io.js"></script>
-  
-  <script src="index3.js" defer></script>
-  
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self';" />
-  
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Permitir sólo scripts y ficheros de la máquina local -->
+    <!-- Con esto se elimina el aviso de seguridad: Insecure Content-Security-Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self';" />
+
+    <!-- Hoja de estilo de la interfaz -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Cargar el proceso asociado a esta página -->
+    <script src="index.js" defer></script>
+
+    <title>Mi APP (version 10)</title>
 </head>
-
 <body>
-  <span>
-    <div class="MiniChat">
-      <h3>MINI CHAT</h3>
-    </div>
-  </span>
-  
-  <p id="info1" >Node Version:</p>
-  <p id="info2" >Chrome Version:</p>
-  <p id="info3" >Electron Version:</p>
-  
-  <div>
+    <h1>INTERFAZ GRÁFICA</h1>
+    <img src="logo-urjc.png" alt="Logo-URJC" width=150px>
+
     <hr>
-    <p id="display" class="contenedor"></p>
-    <div class="contenedor_pequeño">
-      <input type="text" placeholder="Escribir mensaje" id="msg_entry">
-    </div>
-  </div>
+    <h2>Información:</h2>
+    <ul>
+        <li>Node Version: <span id="info1" class="blue"></span> </li>
+        <li>Chrome Version: <span id="info2" class="blue"></span></li>
+        <li>Electron Version: <span id="info3" class="blue"></span></li>
+    </ul>
 
-  <div class = "prueba">
-    <p></p>
-    <p id ="print"></p>
-    <p></p>
-    <button id="btn_test">Enviar mensaje de prueba</button>
-  </div>
-
-  <h2>QR Code</h2>
-  <img src=" " id="qr">
-
+    <hr>
+    <p>Mensajes enviados desde el proceso main:</p>
+    <p>Print:  <span id='print' class="red"></span> </p>
+    <p>   <input type="button" value="Mensaje de prueba" id="btn_test"> </p>
+   <p>Display:</p>
+    <p id="display"></p>
 </body>
 </html>
