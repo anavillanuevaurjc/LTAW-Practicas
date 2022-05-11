@@ -13,11 +13,18 @@ const ip = require('ip');
 
 const process = require('process');
 
+
 const PUERTO = 9090;
 
 //-- Variable para acceder a la ventana principal
 //-- Se pone aquí para que sea global al módulo principal
 let win = null;
+
+//-- Creamos la variable de numero de usuarios conectados
+let counter = 0;
+
+//-- Creamos el objeto fecha
+let date = new Date(Date.now());
 
 //-- Crear una nueva aplciacion web
 const app = express();
@@ -28,103 +35,104 @@ const server = http.Server(app);
 //-- Crear el servidor de websockets, asociado al servidor http
 const io = socket(server);
 
-//-- Contador
-var counter = 0;
-
-//--Nuevo user
-var new_user = false;
-
-// PUNTOS DE ENTRADA DE LA APLICACION WEB
+//-------- PUNTOS DE ENTRADA DE LA APLICACION WEB
 //-- Definir el punto de entrada principal de mi aplicación web
 app.get('/', (req, res) => {
-  //
   path = __dirname + '/public/index.html';
   res.sendFile(path);
-  //res.send('MINICHAT\n' + '<a href="/chat.html">Entrar</a>');
+  console.log("Solicitado acceso al chat");
 });
 
 //-- Esto es necesario para que el servidor le envíe al cliente la
 //-- biblioteca socket.io para el cliente
-app.use('/', express.static(__dirname + '/'));
+app.use('/', express.static(__dirname +'/'));
 
 //-- El directorio publico contiene ficheros estáticos
 app.use(express.static('public'));
 
-//------------------- GESTION SOCKETS IO
 //-- Evento: Nueva conexion recibida
 io.on('connect', (socket) => {
-  new_user = true;
-  if (new_user == true){
-    console.log('** NUEVA CONEXIÓN **'.yellow);
-    counter = counter + 1;
-    //-- Enviar numero de usuarios al renderer
-    win.webContents.send('users', counter);
-    io.send("Un nuevo usuario se ha unido al chat");
-    socket.send("BIENVENIDO");
-    //-- Enviar al render mensaje de conexion
-    win.webContents.send('msg_client', "Un nuevo usuario se ha unido al chat");
-    new_user = false;
-  }
+  
+  console.log('** NUEVA CONEXIÓN **'.yellow);
+  //-- Incrementamos el numero de usuarios conectados
+  counter += 1;
+
+  //-- Enviar numero de usuarios al renderer
+  win.webContents.send('users', counter);
+
+  //-- Enviar mensaje de bienvenida al usuario
+  socket.send('¡Bienvenido al chat!');
+
+  //-- Enviar mensaje de nuevo usuario a todos los usuarios
+  io.send('Nuevo usuario conectado');
+
+  //-- Enviar al render mensaje de conexion
+  win.webContents.send('msg_client', 'Nuevo usuario conectado');
 
   //-- Evento de desconexión
   socket.on('disconnect', function(){
     console.log('** CONEXIÓN TERMINADA **'.yellow);
-    counter = counter - 1;
+    //-- Decrementamos el numero de usuarios conectados
+    counter -= 1;
+
     //-- Enviar numero de usuarios al renderer
     win.webContents.send('users', counter);
+
     //-- Enviar mensaje de desconexión de usuario a todos los usuarios
-    io.send("Un usuario ha abandonado el chat");
+    io.send('Un usuario ha abandonado el chat');
+
     //-- Enviar al render mensaje de desconexion
-    win.webContents.send('msg_client', "Un usuario ha abandonado el chat");
-    
+    win.webContents.send('msg_client', '>>> Un usuario ha abandonado el chat');
   });  
 
   //-- Mensaje recibido: Reenviarlo a todos los clientes conectados
   socket.on("message", (msg)=> {
     console.log("Mensaje Recibido!: " + msg.blue);
-    let split_msg = Array.from(msg);
-    if (split_msg[0] == "/"){
+
+    //-- Enviar al render
+    win.webContents.send('msg_client', msg);
+    msg_text = msg.split(' ')[1];
+    console.log(msg_text.blue);
+
+    //-- Comprobar si el mensaje es un recurso
+    let split_msg = Array.from(msg_text);
+    if(split_msg[0] == "/"){
+      console.log("Recurso recibido!: " + msg_text.red);
+      //-- Comprobamos el recurso solicitado
       let data;
-      console.log("socket.send");
-      if (msg == "/list"){
-        data = "Número de participantes: " + counter;
-        socket.send(data);
-      }else if (msg == "/hello"){
-        data = "Hello";
-        socket.send(data);
-      }else if (msg == "/help") {
+      if(msg_text == '/help'){
         data = "Comandos: <br><br>/help -> Provoca la muestra la lista de comandos existentes <br><br>/hello -> Provoca un saludo por parte del servidor <br><br>/list -> Provoca la visualización de la cantidad de participantes <br><br>/date -> Provoca la visualización de la fecha";
-        socket.send(data);
-      }else if (msg == "/date") { 
-        let date = new Date(Date.now());
-        let data = "Fecha: <br>" + date;
-        socket.send(data);
+      }else if(msg_text == '/list'){
+        data = "Número de participantes: " + counter;
+      }else if(msg_text == '/hello'){
+        data = "Hello";
+      }else if(msg_text == '/date'){
+        data = "Fecha: <br>" + date;
       }else{
         data = "Comando incorrecto";
-        socket.send(data);
       }
+      socket.send(data);
+
     }else{
-      io.send(msg); //-- Todos
+      //-- Reenviarlo a todos los clientes conectados
+      io.send(msg);
     }
-
   });
-
 });
-
 
 //-- Lanzar el servidor HTTP
 //-- ¡Que empiecen los juegos de los WebSockets!
 server.listen(PUERTO);
 console.log("Escuchando en puerto: " + PUERTO);
 
-// Crear la app de electron 
+//------ Crear la app de electron ----
 electron.app.on('ready', () => {
     console.log("Evento Ready!");
 
     //-- Crear la ventana principal de nuestra aplicación
     win = new electron.BrowserWindow({
-        width: 1000,  //-- Anchura 
-        height: 1000,  //-- Altura
+        width: 600,  //-- Anchura 
+        height: 600,  //-- Altura
 
         //-- Permitir que la ventana tenga ACCESO AL SISTEMA
         webPreferences: {
@@ -167,8 +175,7 @@ electron.app.on('ready', () => {
 
 });
 
-//----- Mensajes recibidos del renderizado --------
-
+//Mensajes recibidos del renderizado --------
 //-- Esperar a recibir los mensajes de botón apretado (Test)
 electron.ipcMain.handle('test', (event, msg) => {
     console.log("-> Mensaje: " + msg);
