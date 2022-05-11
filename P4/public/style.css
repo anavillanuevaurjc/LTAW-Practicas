@@ -7,7 +7,7 @@ body{
 .MiniChat{
     color: black;
     font-size: 400%;
-    background-image: url(public/imagenes/flores.jpg);
+    background-image: url(public/flores.jpg);
 }
 
 .contenedor{
