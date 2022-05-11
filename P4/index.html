@@ -1,0 +1,61 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:" />
+        <link rel="stylesheet" href="index.css">
+        <script src="index.js" defer></script>
+
+        <title>MiniChat</title>
+    </head>
+    <body>
+        <span>
+            <div class="MiniChat">
+              <h3>MINI CHAT</h3>
+            </div>
+        </span>
+
+        
+        <div id="left">
+            <h2>Dirección IP: </h2>
+            <p id="ip"></p>
+            <h2>QR: </h2>
+            <br>
+                <img src="" id="qrcode">
+            </br>
+
+            <h2>Información:</h2>
+            <ul>
+                <li>Version de Node: <span id="info1" class="blue"></span> </li>
+                    <P></P>
+                <li>Version de Chrome: <span id="info2" class="blue"></span></li>
+                    <P></P>
+                <li>Version Electron: <span id="info3" class="blue"></span></li>
+                    <P></P>
+                <li>Arquitectura: <span id="info4" class="blue"></span> </li>
+                    <P></P>
+                <li>Plataforma: <span id="info5" class="blue"></span></li>
+                    <P></P>
+                <li>Diretorio: <span id="info6" class="blue"></span></li>
+                    <P></P>
+
+            </ul>
+            <hr>
+                <h2>Usuarios conectados:</h2>
+                <p id="users"></p>
+            </hr>
+                
+        </div>
+        <div id="right">
+            <h2>Pruebas</h2>
+            <p><input type="button" value="Message" id="btn_test"></p>
+            <hr>
+            <h2>Mensajes:</h2>
+            <p id="display"></p>
+            <hr>
+        </div>
+        
+
+    </body>
+</html>
