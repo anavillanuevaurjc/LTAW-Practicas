@@ -1,27 +1,16 @@
 //Obtención 
 const electron = require('electron');
 const qrcode = require('qrcode');
-
 const info1 = document.getElementById("info1");
-
 const info2 = document.getElementById("info2");
-
 const info3 = document.getElementById("info3");
-
 const info4 = document.getElementById("info4");
-
 const info5 = document.getElementById("info5");
-
 const info6 = document.getElementById("info6");
-
 const users = document.getElementById("users");
-
 const ip = document.getElementById("ip");
-
 const code = document.getElementById("qrcode");
-
 const boton = document.getElementById("btn_test");
-
 const display = document.getElementById("display");
 
 
@@ -43,7 +32,7 @@ electron.ipcRenderer.on('informacion', (event, message) => {
 
     info6.textContent = message[5];
 
-    url = ("http://" + message[6] + ":" + message[7] + "/" + message[8]);
+    url = ("http://" + message[6] + ":" + message[7] + "/");
     
     ip.textContent = url;
 
