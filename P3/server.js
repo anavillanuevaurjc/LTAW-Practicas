@@ -59,9 +59,9 @@ io.on('connect', (socket) => {
   socket.on("message", (msg)=> {
     console.log("Mensaje Recibido!: " + msg.blue);
     let split_msg = Array.from(msg);
+    let separator_msg = msg.split(["="]);
     if (split_msg[0] == "/"){
       console.log("socket.send");
-
       if (msg == "/list"){
         socket.send("Número de participantes: " + counter);
       }else if (msg == "/hello"){
@@ -77,6 +77,8 @@ io.on('connect', (socket) => {
         let data = "Comando incorrecto";
         socket.send(data);
       }
+    }else if (split_msg[0] == "N" && split_msg[1] == "i" && split_msg[2] == "c" && split_msg[3] == "k" && split_msg[4] == " " && split_msg[5] == "=" ){
+      console.log(separator_msg[1]);
     }else{
       io.send(msg); //-- Todos
     }
