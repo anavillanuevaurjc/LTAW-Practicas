@@ -21,6 +21,8 @@ var counter = 0;
 //--Nuevo user
 var new_user = false;
 
+var nick = "";
+
 // PUNTOS DE ENTRADA DE LA APLICACION WEB
 //-- Definir el punto de entrada principal de mi aplicación web
 app.get('/', (req, res) => {
@@ -79,8 +81,15 @@ io.on('connect', (socket) => {
       }
     }else if (split_msg[0] == "N" && split_msg[1] == "i" && split_msg[2] == "c" && split_msg[3] == "k" && split_msg[4] == " " && split_msg[5] == "=" ){
       console.log(separator_msg[1]);
+      nick = separator_msg[1];
     }else{
-      io.send(msg); //-- Todos
+      if (nick == ""){
+        nick = "unknown";
+        io.send(nick + ": " + msg); //-- Todos
+      }else{
+        io.send(nick + ": " + msg); //-- Todos
+      }
+      
     }
 
   });
