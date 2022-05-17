@@ -1,17 +1,12 @@
-//Puedo crear 3 páginas y en función del producto clickclado me lleva a una página con el disco diciendo que ha sido añadido con exito
-//en este punto es donde se añade la cookie
-
 //-- Modulos -->
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
-const { count } = require('console');
 
 //-- Puerto -->
 const PUERTO = 9090;
 
 //-- JSON --> 
-
 //-- Nombre del fichero JSON a leer
 const fichero_JSON = "tienda.json";
 //-- Leer el fichero JSON
@@ -20,8 +15,8 @@ const tienda_JSON = fs.readFileSync(fichero_JSON);
 const tienda = JSON.parse(tienda_JSON);
 const productos = tienda[0].productos;
 const usuarios = tienda[1].usuarios;
-const nu_usuarios = usuarios.length;
 const pedidos = tienda[2].pedidos;
+
 //-- Array productos -> Nuevo JSON
 const pArray = [];
 productos.forEach((element, index)=>{
@@ -29,8 +24,7 @@ productos.forEach((element, index)=>{
 });
 let myJSON = JSON.stringify(pArray); 
 fs.writeFileSync('arrayPJson.json', myJSON); 
-let result = [];
-let param1 = "";
+
 
 //-- Búsquedas
 //-- Nombre del fichero JSON a leer
@@ -244,8 +238,7 @@ const server = http.createServer((req, res) => {
         if (prodU.startsWith(param1)) {
             result.push(prod);
         }
-      }
-      //filename = 'arrayPJson.json'; 
+      } 
       var nuevo_result = "";
       resultBusq.push(nuevo_result);
       resultBusq[resultBusq.length - 1] = result;
@@ -259,7 +252,6 @@ const server = http.createServer((req, res) => {
     }
 
     if (filename == "./busqueda"){
-      console.log("COMPROBAMOSSSS " + resultBusq[0])
       if (resultBusq[resultBusq.length - 1] == "Amaia"){
         resultBusq[resultBusq.length - 1] = "";
         let myJSON = JSON.stringify(resultBusq); 
@@ -306,34 +298,6 @@ const server = http.createServer((req, res) => {
   }
   //--LECTURA ASINCRONA -->
   fs.readFile(filename, (err, data) => {
-    //console.log(filename + "2303aaaaaaaaaaaaaaaaa" );
-
-    
-
-    //Búsquedas
-/*    
-    if (filename == '/productos'){
-
-      let param1 = myURL.searchParams.get('param1');
-      param1 = param1.toUpperCase();
-      console.log("  Param: " +  param1);
-      result = [];
-      for (let prod of pArray) {
-        console.log(pArray + "AAAAAAAA");
-        //-- Pasar a mayúsculas
-        prodU = prod.toUpperCase();
-
-        //-- Si el producto comienza por lo indicado en el parametro
-        //-- meter este producto en el array de resultados
-        if (prodU.startsWith(param1)) {
-            result.push(prod);
-        }
-    }
-    
-    console.log(result + "REEEEEE");
-    content = JSON.stringify(result);
-    }*/
-    
 
     //Página principal
 
@@ -470,15 +434,14 @@ const server = http.createServer((req, res) => {
     }
     //-- Respuesta al realizar la compra
     if (filename == "respuesta_carrito.html" && contadorC == 1){
-      console.log("SAT");
       //Satisfactorio
       const fichero = fs.readFileSync('respuesta_carrito.html', 'utf-8');
       data = fichero.replace("*DESCRIPCION*", "Compra finalizada");
       //Se ha de reducir el stock
       
+      
     }else if (filename == "respuesta_carrito.html" && contadorC == 0){
       //No satisfactorio
-      console.log("NOSAT");
       const fichero = fs.readFileSync('respuesta_carrito.html', 'utf-8');
       data = fichero.replace("*DESCRIPCION*", "No se ha podido realizar la compra. Revise los parametros introducidos");
     }
