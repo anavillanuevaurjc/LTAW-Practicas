@@ -71,15 +71,19 @@ const server = http.createServer((req, res) => {
   }else if (myURL.pathname == "/procesar") {  //LOGIN                  
     content_type = "text/html";
     Usuario = myURL.searchParams.get('accesoUsuario');
+    contra = myURL.searchParams.get('accesoUsuarioC');
     contadorA = 0;
     //-- Recorrer el array de productos
     usuarios.forEach((element, index)=>{
       if (Usuario == element["nickname"]) {
         contadorA =+ 1;
       } 
+      if (contra == element["contraseña"]){
+        contadorC = +1;
+      }
     });
     //-- Si el contador es distinto de 0 -> usuario dado coincide con usuarios registrados
-    if (contadorA != 0) {
+    if (contadorA != 0 && contadorC != 0) {
       filename = "index.html";
     }else{
       filename = "form-user.html";
@@ -138,18 +142,20 @@ const server = http.createServer((req, res) => {
     let nombre = myURL.searchParams.get('nombre');
     let nombre_usuario = myURL.searchParams.get('nombre_usuario');
     let correo_electronico = myURL.searchParams.get('correo_electronico');
+    let contra = myURL.searchParams.get('contra');
 
     if (nombre == "" || nombre_usuario == "" || correo_electronico == ""){
       
     }else{
       //-- Adición
       var nuevo_us = {};
-      nuevo_us = { "nickname": "", "tipo": "","nombre" : "", "email" : ""};
+      nuevo_us = { "nickname": "", "tipo": "","nombre" : "", "email" : "", "contraseña" : ""};
       usuarios.push(nuevo_us);
       usuarios[usuarios.length - 1]["nickname"] = nombre_usuario;
       usuarios[usuarios.length - 1]["tipo"] = "común";
       usuarios[usuarios.length - 1]["nombre"] = nombre;
       usuarios[usuarios.length - 1]["email"] = correo_electronico;
+      usuarios[usuarios.length - 1]["contraseña"] = contra;
       //-- Convertir la variable a cadena JSON
       let myJSON = JSON.stringify(tienda);  
       //-- Guardarla en el fichero destino
