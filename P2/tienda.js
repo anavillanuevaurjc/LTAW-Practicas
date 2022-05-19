@@ -75,12 +75,17 @@ const server = http.createServer((req, res) => {
     contadorA = 0;
     //-- Recorrer el array de productos
     usuarios.forEach((element, index)=>{
+      console.log(index + " INDEEEEX");
       if (Usuario == element["nickname"]) {
+
         contadorA =+ 1;
+
+        if (contra == element["contraseña"]){
+          contadorC = +1;
+        }
+        
       } 
-      if (contra == element["contraseña"]){
-        contadorC = +1;
-      }
+      
     });
     //-- Si el contador es distinto de 0 -> usuario dado coincide con usuarios registrados
     if (contadorA != 0 && contadorC != 0) {
